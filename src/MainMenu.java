@@ -28,81 +28,82 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
 
     public MainMenu ()
     {
-        this.setTitle ("Game Of Garneau v.1.0: Main Menu");
+	this.setTitle ("Game Of Garneau v.1.0: Main Menu");
 
-        // colorScheme = settingsWindow.getColors ();
-        bPlay.setBackground (colorScheme [1]);
-        bInst.setBackground (colorScheme [2]);
-        bQuit.setBackground (colorScheme [3]);
-        bSett.setBackground (colorScheme [4]);
+	// colorScheme = settingsWindow.getColors ();
+	bPlay.setBackground (colorScheme [1]);
+	bInst.setBackground (colorScheme [2]);
+	bQuit.setBackground (colorScheme [3]);
+	bSett.setBackground (colorScheme [4]);
 
-        // playerNames = settingsWindow.getNames ();
+	// playerNames = settingsWindow.getNames ();
 
-        // gameScreenWindow.setSettings (colorScheme, playerNames);
+	// gameScreenWindow.setSettings (colorScheme, playerNames);
 
-        bPlay.addActionListener (this);
-        bInst.addActionListener (this);
-        bQuit.addActionListener (this);
-        bSett.addActionListener (this);
+	bPlay.addActionListener (this);
+	bInst.addActionListener (this);
+	bQuit.addActionListener (this);
+	bSett.addActionListener (this);
 
-        setSize (400, 400);
-        setResizable (false);
+	setSize (400, 400);
+	setResizable (false);
 
-        // gameScreenWindow.setVisible (false);
-        // gameScreenWindow.setResizable (false);
-        // 
-        // instructionsWindow.setVisible (false);
-        // instructionsWindow.setResizable (false);
-        // 
-        // settingsWindow.setVisible (false);
-        // settingsWindow.setResizable (false);
+	// gameScreenWindow.setVisible (false);
+	// gameScreenWindow.setResizable (false);
+	// 
+	// instructionsWindow.setVisible (false);
+	// instructionsWindow.setResizable (false);
+	// 
+	// settingsWindow.setVisible (false);
+	// settingsWindow.setResizable (false);
 
-        try
-        {
-            titleImage = ImageIO.read (this.getClass ().getResource ("game.png"));
-        }
-        catch (IOException e)
-        {
-            //erherhah
-        }
-        JLabel title = new JLabel (new ImageIcon (titleImage));
-        title.setPreferredSize (new Dimension (320, 130));
+	try
+	{
+	    titleImage = ImageIO.read (this.getClass ().getResource ("game.png"));
+	}
+	catch (IOException e)
+	{
+	    //erherhah
+	}
+	JLabel title = new JLabel (new ImageIcon (titleImage));
+	title.setPreferredSize (new Dimension (320, 130));
 
-        JPanel options = new JPanel (new GridLayout (0, 1));
-        options.setSize (new Dimension (300, 300));
-        options.add (bPlay);
-        options.add (bInst);
-        options.add (bSett);
-        options.add (bQuit);
+	JPanel options = new JPanel (new GridLayout (0, 1));
+	options.setSize (new Dimension (300, 300));
+	options.add (bPlay);
+	options.add (bInst);
+	options.add (bSett);
+	options.add (bQuit);
 
-        screen.add (options, BorderLayout.CENTER);
-        screen.add (title, BorderLayout.NORTH);
-        screen.setBorder (BorderFactory.createEmptyBorder (40, 40, 40, 40));
-        screen.setBackground (colorScheme [0]);
+	screen.add (options, BorderLayout.CENTER);
+	screen.add (title, BorderLayout.NORTH);
+	screen.setBorder (BorderFactory.createEmptyBorder (40, 40, 40, 40));
+	screen.setBackground (colorScheme [0]);
 
-        this.getContentPane ().add (screen);
-        setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener (this);
-        addWindowFocusListener (this);
+	this.getContentPane ().add (screen);
+	setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
+	addWindowListener (this);
+	addWindowFocusListener (this);
+	//make a change
     }
 
 
     public void windowGainedFocus (WindowEvent e)
     {
-        // colorScheme = settingsWindow.getColors ();
+	// colorScheme = settingsWindow.getColors ();
 
-        screen.setBackground (colorScheme [0]);
-        bPlay.setBackground (colorScheme [1]);
-        bInst.setBackground (colorScheme [2]);
-        bQuit.setBackground (colorScheme [3]);
-        bSett.setBackground (colorScheme [4]);
+	screen.setBackground (colorScheme [0]);
+	bPlay.setBackground (colorScheme [1]);
+	bInst.setBackground (colorScheme [2]);
+	bQuit.setBackground (colorScheme [3]);
+	bSett.setBackground (colorScheme [4]);
 
-        this.getRootPane ().revalidate ();
-        this.getContentPane ().repaint ();
+	this.getRootPane ().revalidate ();
+	this.getContentPane ().repaint ();
 
-        // playerNames = settingsWindow.getNames ();
+	// playerNames = settingsWindow.getNames ();
 
-        // gameScreenWindow.setSettings (colorScheme, playerNames);
+	// gameScreenWindow.setSettings (colorScheme, playerNames);
     }
 
 
@@ -124,7 +125,7 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
 
     public void windowClosing (WindowEvent arg0)
     {
-        System.exit (0);
+	System.exit (0);
     }
 
 
@@ -150,27 +151,27 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
 
     public void actionPerformed (ActionEvent e)
     {
-        JButton temp = (JButton) e.getSource ();
+	JButton temp = (JButton) e.getSource ();
 
-        // if (temp.equals (bPlay))
-        // {
-        //     gameScreenWindow.setVisible (true);
-        // }
-        // 
-        // else if (temp.equals (bInst))
-        //     instructionsWindow.setVisible (true);
-        // 
-        // else if (temp.equals (bSett))
-        //     settingsWindow.setVisible (true);
-        // 
-        // else
-        //     System.exit (0);
+	// if (temp.equals (bPlay))
+	// {
+	//     gameScreenWindow.setVisible (true);
+	// }
+	// 
+	// else if (temp.equals (bInst))
+	//     instructionsWindow.setVisible (true);
+	// 
+	// else if (temp.equals (bSett))
+	//     settingsWindow.setVisible (true);
+	// 
+	// else
+	//     System.exit (0);
     }
 
 
     public static void main (String s[])
     {
-        MainMenu main = new MainMenu ();
-        main.setVisible (true);
+	MainMenu main = new MainMenu ();
+	main.setVisible (true);
     }
 }

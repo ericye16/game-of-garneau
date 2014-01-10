@@ -84,7 +84,7 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
 	setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
 	addWindowListener (this);
 	addWindowFocusListener (this);
-	//make a change
+
     }
 
 

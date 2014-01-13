@@ -16,10 +16,7 @@ public abstract class Entity {
      * @param newLoc A double array of length 3.
      * @return True if the location is reachable.
      */
-    private boolean canMoveTo(double[] newLoc) {
-        logger.severe("canMoveTo not implemented in Entity subclass: Implement!");
-        throw new InternalError("canMoveTo not implemented in Entity subclass");
-    }
+    protected abstract boolean canMoveTo(double[] newLoc);
 
     public boolean move(double[] move) {
         double[] newLoc = location.clone();

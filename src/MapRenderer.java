@@ -10,6 +10,7 @@ import java.awt.*;
 
 /**
  * Class to render maps based on Tiled map file (TMX) files.
+ * More information on the Tiled Map Editor can be found here: http://www.mapeditor.org/
  */
 public class MapRenderer extends JPanel {
     protected TileSet tileSet;

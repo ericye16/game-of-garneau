@@ -151,26 +151,5 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
     public void actionPerformed (ActionEvent e)
     {
         JButton temp = (JButton) e.getSource ();
-
-        // if (temp.equals (bPlay))
-        // {
-        //     gameScreenWindow.setVisible (true);
-        // }
-        // 
-        // else if (temp.equals (bInst))
-        //     instructionsWindow.setVisible (true);
-        // 
-        // else if (temp.equals (bSett))
-        //     settingsWindow.setVisible (true);
-        // 
-        // else
-        //     System.exit (0);
-    }
-
-
-    public static void main (String s[])
-    {
-        MainMenu main = new MainMenu ();
-        main.setVisible (true);
     }
 }

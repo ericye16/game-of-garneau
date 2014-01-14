@@ -1,0 +1,55 @@
+import java.awt.Image;
+public class Tile // creates a tile object, on a boolean n by m grid, the true values being the shape of the tile
+{
+    public boolean[] [] grid;
+    public int x, y;
+    public Image tileImage;
+
+
+    public Tile (int x, int y, String values)  // basic constructor
+    {
+        grid = new boolean [x] [y];
+        this.x = x;
+        this.y = y;
+        assign (values);
+    }
+
+
+  
+
+
+    public int width ()  // returns width of tile
+    {
+        return x;
+    }
+
+
+    public int length ()  // returns length of tile
+    {
+        return y;
+    }
+
+
+
+
+
+    private void assign (String values)  // assigns the values of the squares on the tiles to the boolean grid
+    {
+        int position = 0;
+
+        for (int i = 0 ; i < y ; i++)
+        {
+            for (int j = 0 ; j < x ; j++, position++)
+            {
+                grid [j] [i] = (values.charAt (position) == '1'); // if the character at that position is one, then the grid element is true
+            }
+        }
+    }
+
+
+    
+
+
+}
+
+

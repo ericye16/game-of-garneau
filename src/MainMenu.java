@@ -13,7 +13,7 @@ import java.awt.event.WindowFocusListener;
 
 public class MainMenu extends JFrame implements ActionListener, WindowListener, WindowFocusListener
 {
-    private BufferedImage titleImage;
+    //private BufferedImage titleImage;
     private JButton bPlay = new JButton ("Play");
     private JButton bInst = new JButton ("Instructions");
     private JButton bQuit = new JButton ("Quit");
@@ -57,7 +57,7 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
         // settingsWindow.setVisible (false);
         // settingsWindow.setResizable (false);
 
-        try
+        /*try
         {
             titleImage = ImageIO.read (this.getClass ().getResource ("game.png"));
         }
@@ -66,7 +66,7 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
             //erherhah
         }
         JLabel title = new JLabel (new ImageIcon (titleImage));
-        title.setPreferredSize (new Dimension (320, 130));
+        title.setPreferredSize (new Dimension (320, 130));*/
 
         JPanel options = new JPanel (new GridLayout (0, 1));
         options.setSize (new Dimension (300, 300));
@@ -76,7 +76,7 @@ public class MainMenu extends JFrame implements ActionListener, WindowListener, 
         options.add (bQuit);
 
         screen.add (options, BorderLayout.CENTER);
-        screen.add (title, BorderLayout.NORTH);
+        //screen.add (title, BorderLayout.NORTH);
         screen.setBorder (BorderFactory.createEmptyBorder (40, 40, 40, 40));
         screen.setBackground (colorScheme [0]);
 

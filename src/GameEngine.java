@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class GameEngine {
-    private char[][][] map;
     private ArrayList<Entity> entities;
     private MapRenderer mapRenderer;
 
@@ -18,7 +17,6 @@ public class GameEngine {
     public GameEngine(MapRenderer mapRenderer) {
         assert(mapRenderer != null);
         this.mapRenderer = mapRenderer;
-        mapRenderer.setMap(map);
     }
 
 }

@@ -22,7 +22,6 @@ public class MapRenderer extends JPanel {
         assert(location.length == 3);
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         final Graphics2D g2d = (Graphics2D) g.create();

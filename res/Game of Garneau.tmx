@@ -8,7 +8,45 @@
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2FFLwzAYBdBMp6LTqRORzf//P80HDkvXytamIYxz4D40eQlc+JItJVrznrMrlI/KZ79GnzmrnJuB3F6wF99flc9+jaKPu5z7gTxcsBff+phPH23RR1uij8ecdc5TL5vfve7aurOnj/Kij9cJibv8LemjtKH31Tb9vZ+26fRdFX3055g+yhi7P8bujljXx3Km9tG/V+I+0cd8U/vozrjjfNPHfOZVW47v3aG3rj7qG/v/KuaPPuqLPp7T+fPqJeljSe6PtuijLVP76M84fZTx3/tqbN3vweXscw6F8l357AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA5P8FSDzg=
+   eJzt2NtKAzEUBdBR613rHW///5/mgGIZk5FJ0mEoa8F+aNKHoZtJDh0G1uYh5bFTnhZ+9kP0knKUcpzJyYy9+Py68LMfoujjNOUsk/MZe/FZH+30sS76WJfo4zJlk3I1yvX33u7aZmdPH/1FH3cVibv8ftBHb7n5ajv8zk/b4e9cFX2MzzF99FG6P0p3R6xHHzeZdX20q+1jfK/EfaKPdjV9lM43fbSb6uMt5WKU54nv66Pdz7ybm3Xnvjf6aFf6/yrOn9zvfltY10cf0cd4VvrvPdDH/tTc5/rYH32sS00fpfNNH+2m5qu56/po957y0SmfCz87AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0M8X+usPFg==
   </data>
  </layer>
+ <objectgroup name="Collisions" width="100" height="100">
+  <object x="527" y="79">
+   <polyline points="0,0 97,0 97,257 -32,257 -31,242"/>
+  </object>
+  <object x="496" y="286">
+   <polyline points="0,0 0,-47 31,-47 32,-206"/>
+  </object>
+  <object x="448" y="207">
+   <polyline points="0,0 48,0 47,-128 -145,-128 -145,-1 -145,0 -34,0"/>
+  </object>
+  <object x="95" y="207">
+   <polyline points="0,0 -16,0 -15,-128 177,-128 177,1 35,1"/>
+  </object>
+  <object x="191" y="272">
+   <polyline points="0,0 -111,0 -112,159 49,160 50,-1 33,-1"/>
+  </object>
+  <object x="286" y="271">
+   <polyline points="0,0 -15,0 -15,351 -15,352 145,353 146,209"/>
+  </object>
+  <object x="320" y="271">
+   <polyline points="0,0 112,0 112,174"/>
+  </object>
+  <object x="272" y="399">
+   <polyline points="0,0 158,0"/>
+  </object>
+  <object x="463" y="608">
+   <polyline points="0,0 0,15 161,15 161,-240 146,-240"/>
+  </object>
+  <object x="34" y="33">
+   <polyline points="0,0 637,0 637,636 637,638 -1,638 -2,1 -1,0"/>
+  </object>
+  <object x="464" y="573">
+   <polyline points="0,0 -1,-206 110,-206"/>
+  </object>
+  <object x="79" y="513">
+   <polyline points="0,0 1,111 160,111 161,-51 0,-51 0,-35"/>
+  </object>
+ </objectgroup>
 </map>

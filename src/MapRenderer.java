@@ -1,18 +1,17 @@
-import tiled.core.Map;
-import tiled.core.MapLayer;
-import tiled.core.TileLayer;
-import tiled.core.TileSet;
+import tiled.core.*;
 import tiled.io.TMXMapReader;
 import tiled.view.OrthogonalRenderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 
 /**
  * Class to render maps based on Tiled map file (TMX) files.
  * More information on the Tiled Map Editor can be found here: http://www.mapeditor.org/
  */
 public class MapRenderer extends JPanel {
+    protected GameEngine gameEngine = new GameEngine(this);
     protected TileSet tileSet;
     protected Map tiledmap;
     protected Color bgcolour;
@@ -58,6 +57,12 @@ public class MapRenderer extends JPanel {
             throw new IllegalArgumentException("Can only use orthogonal tiled maps.");
         }
         tiledMapRenderer = new OrthogonalRenderer(tiledmap);
+        ObjectGroup collisionGroup = (ObjectGroup) tiledmap.getLayer(1);
+        Iterator<MapObject> objects= collisionGroup.getObjects();
+        while(objects.hasNext()) {
+            MapObject obj = objects.next();
+            gameEngine.addCollisionArea(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), null);
+        }
 
         //what's our background colour?
         bgcolour = new Color(100, 100, 100);

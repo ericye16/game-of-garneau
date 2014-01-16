@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame extends JFrame {
 
@@ -8,7 +9,10 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         setTitle("Game of Garneau, v." + Version.version);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        add(mapRenderer);
+        add(mapRenderer, BorderLayout.LINE_START);
+        DebugPanel debugPanel = new DebugPanel();
+        mapRenderer.setDebugPanel(debugPanel);
+        add(debugPanel, BorderLayout.PAGE_END);
         pack();
         setVisible(true);
     }

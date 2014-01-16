@@ -11,4 +11,36 @@
    eJzt2O1KwzAYBtC4TecHc0xxooLe/12aUAohZNStXRfHOfD8eUsg9IGGNARas4t5mTCv827/6rzF3MQssixj9pX5UNK693m3f3VSH7cxd1nWoeujnA8lrdPHOPpoS62PTdDHpeijLb5XbdFHW1IfDzGPWZ5C10c/XxXPy6yydfoYJ/WxPyHbIvmc06U+yneqj8vp7+fPYfh+vqzMFtla9/PxjjnP15WZ83xa+mjLMX1sKjN9TCv18RNzn+U7dH3U5vo4L9+rthzz/0of5+f8aMuh/yXbA/NyVj7XxzgfMZ9F+jt3Of9LvubdPgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/YL0ltEuw=
   </data>
  </layer>
+ <objectgroup name="Object Layer 1" width="100" height="100">
+  <object x="208" y="157">
+   <polyline points="0,0 0,-77 -128,-77 -128,145 -2,146 -1,67"/>
+  </object>
+  <object x="319" y="303">
+   <polyline points="0,0 -48,0 -48,-224 337,-224 337,0 290,0"/>
+  </object>
+  <object x="609" y="399">
+   <polyline points="0,0 46,0 47,256 -177,256 -177,0 -35,0"/>
+  </object>
+  <object x="399" y="477">
+   <polyline points="0,0 0,-78 -128,-78 -127,178 0,178 0,163"/>
+  </object>
+  <object x="399" y="604">
+   <polyline points="0,0 1,-92"/>
+  </object>
+  <object x="399" y="526">
+   <polyline points="0,0 -126,1"/>
+  </object>
+  <object x="94" y="398">
+   <polyline points="0,0 -15,0 -15,256 113,257 114,211"/>
+  </object>
+  <object x="207" y="574">
+   <polyline points="0,0 1,-175 -79,-175"/>
+  </object>
+  <object x="80" y="527">
+   <polyline points="0,0 127,0"/>
+  </object>
+  <object x="353" y="306">
+   <polyline points="0,0 0,-3 220,-2"/>
+  </object>
+ </objectgroup>
 </map>

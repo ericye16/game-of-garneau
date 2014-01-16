@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" width="21" height="21" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="Classroom" tilewidth="32" tileheight="32">
   <image source="tilesets/Classroom.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="17" name="Walls" tilewidth="32" tileheight="32">
   <image source="tilesets/Walls.png" width="128" height="128"/>
  </tileset>
- <layer name="Tile Layer 1" width="100" height="100">
+ <layer name="Tile Layer 1" width="21" height="21">
   <data encoding="base64" compression="zlib">
-   eJzt2NtKAzEUBdBovWCrFS3F64P//5Um6GAJyUsmGYeyFuyHZloYukl6piGwNk8xz51yWPjez9Ex5iLmMstnYS1lE/NY+Exaf1n43s9R6uM65ibLa2Et5Tb89JF/Jq3rY77WPu4L6/qYz/5YF32sS+rjLuYqZnuSr+z19vc9u6CPkUrz1T78zVj7UJ6v9DFG7byqnVnTeZX21OneSftGH/O19lGKPuZr7cPz4BitfXj+GGOar/JZqjZjma/Gqv1/tamsT9f0MUbqIz97pu+3do6Vrumjj9rvhz7+hz7WpaWPh8I1ffRRm692lfXaNc/nfbzFvHfKx8L3DgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPTzDaBUD9E=
+   eJzdk90OgyAMhTs3NYDDTGP2e+H7P+VKhIw0RQiDG0m+C1s44XDqDQCmQsywrQU5IQ3hw9QMZ2Rkzpj63dNskY7wYGqG3mrSM30BzaGCZo17xjQFckGkx0q+pd2jEjVphhp+2Wvgc8/xHvLvvAviQRXQ5PhXM2fmY5qx+aRvs5d9bu7OC1d3vZgm9eH2hN6E66XM0hE0rwmaXO4qUA/1/P/oibwK8YZ66wtnxQ/R
   </data>
  </layer>
+ <objectgroup name="Collisions" width="21" height="21">
+  <object x="464" y="94">
+   <polyline points="0,0 -1,-47 127,-47 127,177 -1,177 -1,34"/>
+  </object>
+  <object x="384" y="208">
+   <polyline points="0,0 16,0 16,-160 -337,-161 -336,-1 -323,0"/>
+  </object>
+  <object x="97" y="207">
+   <polyline points="0,0 254,0"/>
+  </object>
+  <object x="207" y="207">
+   <polyline points="0,0 0,-158"/>
+  </object>
+  <object x="288" y="240">
+   <polyline points="0,0 111,-1 112,160 -241,160 -241,-1 -130,-1"/>
+  </object>
+  <object x="192" y="239">
+   <polyline points="0,0 62,0"/>
+  </object>
+  <object x="240" y="239">
+   <polyline points="0,0 0,160"/>
+  </object>
+  <object x="463" y="351">
+   <polyline points="0,0 0,-16 129,-16 129,240 0,240 0,35"/>
+  </object>
+  <object x="431" y="542">
+   <polyline points="0,0 0,-111 -192,-111 -192,49 0,49 0,35"/>
+  </object>
+  <object x="47" y="445">
+   <polyline points="0,0 0,-14 160,-13 161,147 1,146 0,36"/>
+  </object>
+ </objectgroup>
 </map>

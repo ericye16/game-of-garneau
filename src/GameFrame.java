@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class GameFrame extends JFrame {
 
-    private final MapRenderer mapRenderer = new MapRenderer("res/map.tmx");
+    private final MapRenderer mapRenderer = new MapRenderer();
     private final GameEngine gameEngine = new GameEngine(mapRenderer);
 
     public GameFrame() {

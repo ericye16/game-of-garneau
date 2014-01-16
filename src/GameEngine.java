@@ -12,6 +12,8 @@ public class GameEngine {
     private BodyDef bodyDef = new BodyDef();
     private FixtureDef fixtureDef = new FixtureDef();
     private PolygonShape polygonShape = new PolygonShape();
+    private PlayerStudent playerStudent;
+    private Body playerStudentBody;
 
     private void renderEntities() {
         for (Entity entity: entities) {
@@ -28,7 +30,16 @@ public class GameEngine {
         this.mapRenderer = mapRenderer;
 
         this.world = new World(new Vec2(0, 0));
-
+        playerStudent = new PlayerStudent();
+        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.active = true;
+        bodyDef.allowSleep = true;
+        bodyDef.position = new Vec2((float) playerStudent.getLocation()[0], (float) playerStudent.getLocation()[1]);
+        bodyDef.userData = playerStudent;
+        polygonShape.setAsBox(16, 16);
+        fixtureDef.shape = polygonShape;
+        playerStudentBody = world.createBody(bodyDef);
+        playerStudentBody.createFixture(fixtureDef);
     }
 
     public void addCollisionArea(float x, float y, float xsize, float ysize, Entity entity) {

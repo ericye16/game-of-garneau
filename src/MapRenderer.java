@@ -14,14 +14,16 @@ import java.util.logging.Logger;
  */
 public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
     private DebugPanel debugPanel;
+    private final String[] filenames = new String[] {"floor1", "floor2", "floor3"};
     protected GameEngine gameEngine = new GameEngine(this);
     protected TileSet tileSet;
-    protected Map tiledmap;
+    protected Map[] tiledmap = new Map[filenames.length];
     protected Color bgcolour;
     protected tiled.view.MapRenderer tiledMapRenderer; //really unfortunate name collision
-    final private int tileHeight = 32;
-    final private int tileWidth = 32;
+    final private int tileHeight = 32; //there's a much better way to do this
+    final private int tileWidth = 32; //yeah
     private static Logger logger = Logger.getLogger("MapRenderer");
+    private int currentFloor = 0;
 
     public void renderEntityAt(Entity entity, double[] location) {
         assert(location.length == 3);
@@ -38,32 +40,34 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
 
         //draw each tile map layer
         //unfortunate name collision
-        for (MapLayer layer: tiledmap) {
+        for (MapLayer layer: tiledmap[currentFloor]) {
             if (layer instanceof TileLayer) {
                 tiledMapRenderer.paintTileLayer(g2d, (TileLayer) layer);
             }
         }
     }
 
-    public MapRenderer(String filename) {
+    public MapRenderer() {
         try {
-            tiledmap = new TMXMapReader().readMap(filename);
+            for (int i = 0; i < filenames.length; i++) {
+                tiledmap[i] = new TMXMapReader().readMap("res/" + filenames[i] + ".tmx");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         setOpaque(true);
 
         //we draw the entire map
-        int width = tiledmap.getWidth() * tiledmap.getTileWidth();
-        int height = tiledmap.getHeight() * tiledmap.getTileHeight();
+        int width = tiledmap[currentFloor].getWidth() * tiledmap[currentFloor].getTileWidth();
+        int height = tiledmap[currentFloor].getHeight() * tiledmap[currentFloor].getTileHeight();
         setPreferredSize(new Dimension(width, height));
 
         //we only support orthogonal maps
-        if (tiledmap.getOrientation() != Map.ORIENTATION_ORTHOGONAL) {
+        if (tiledmap[currentFloor].getOrientation() != Map.ORIENTATION_ORTHOGONAL) {
             throw new IllegalArgumentException("Can only use orthogonal tiled maps.");
         }
-        tiledMapRenderer = new OrthogonalRenderer(tiledmap);
-        ObjectGroup collisionGroup = (ObjectGroup) tiledmap.getLayer(1);
+        tiledMapRenderer = new OrthogonalRenderer(tiledmap[currentFloor]);
+        ObjectGroup collisionGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(1);
         Iterator<MapObject> objects= collisionGroup.getObjects();
         while(objects.hasNext()) {
             MapObject obj = objects.next();
@@ -115,16 +119,16 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
     }
 
     @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e) {
         if (debugPanel != null) {
             debugPanel.updateMouseLocation(e.getX(), e.getY());
             debugPanel.updateTileLocation(e.getX() / tileWidth, e.getY() / tileHeight);
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 
     @Override

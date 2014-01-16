@@ -8,10 +8,10 @@
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2NtKAzEUBdBR613rHW///5/mgGIZk5FJ0mEoa8F+aNKHoZtJDh0G1uYh5bFTnhZ+9kP0knKUcpzJyYy9+Py68LMfoujjNOUsk/MZe/FZH+30sS76WJfo4zJlk3I1yvX33u7aZmdPH/1FH3cVibv8ftBHb7n5ajv8zk/b4e9cFX2MzzF99FG6P0p3R6xHHzeZdX20q+1jfK/EfaKPdjV9lM43fbSb6uMt5WKU54nv66Pdz7ybm3Xnvjf6aFf6/yrOn9zvfltY10cf0cd4VvrvPdDH/tTc5/rYH32sS00fpfNNH+2m5qu56/po957y0SmfCz87AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0M8X+usPFg==
+   eJzt2NtKAzEUBdBR613rDREV9P//0hxQLGMyMkk6DGUt2A9N+jB0M8mhw8DaPKQ8dsrTws9+iJ5TjlKOMzmZsRefXxZ+9kMUfZymnGVyPmMvPuujnT7WRR/rEn1cpmxSrka5/t7bXdvs7Omjv+jjriJxl98P+ugtN19th9/5aTv8nauij/E5po8+SvdH6e6I9ejjJrOuj3a1fYzvlbhP9NGupo/S+aaPdlN9fKZcjPIx8X19tPuZd3Oz7tz3Rh/tSv9fxfmT+91vC+v66CP6GM9K/70H+tifmvtcH/ujj3Wp6aN0vumj3dR8NXddH+1eU9465X3hZwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD6+QIaGQ8n
   </data>
  </layer>
- <objectgroup name="Collisions" width="100" height="100">
+ <objectgroup name="Collisions" width="100" height="100" opacity="0.46">
   <object x="527" y="79">
    <polyline points="0,0 97,0 97,257 -32,257 -31,242"/>
   </object>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Classroom" tilewidth="32" tileheight="32">
+  <image source="tilesets/Classroom.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="Walls" tilewidth="32" tileheight="32">
+  <image source="tilesets/Walls.png" width="128" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2O1KwzAYBtC4TecHc0xxooLe/12aUAohZNStXRfHOfD8eUsg9IGGNARas4t5mTCv827/6rzF3MQssixj9pX5UNK693m3f3VSH7cxd1nWoeujnA8lrdPHOPpoS62PTdDHpeijLb5XbdFHW1IfDzGPWZ5C10c/XxXPy6yydfoYJ/WxPyHbIvmc06U+yneqj8vp7+fPYfh+vqzMFtla9/PxjjnP15WZ83xa+mjLMX1sKjN9TCv18RNzn+U7dH3U5vo4L9+rthzz/0of5+f8aMuh/yXbA/NyVj7XxzgfMZ9F+jt3Of9LvubdPgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/YL0ltEuw=
+  </data>
+ </layer>
+</map>

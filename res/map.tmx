@@ -408,8 +408,8 @@
   </data>
  </layer>
  <objectgroup name="Collisions" width="20" height="20">
-  <object x="233" y="97" width="21" height="128"/>
-  <object x="322" y="194" width="29" height="124"/>
+  <object x="224" y="97" width="28" height="128"/>
+  <object x="321" y="193" width="29" height="125"/>
   <object x="160" y="416" width="127" height="32"/>
   <object x="64" y="321" width="30" height="62"/>
  </objectgroup>

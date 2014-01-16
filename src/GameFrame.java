@@ -12,4 +12,17 @@ public class GameFrame extends JFrame {
         pack();
         setVisible(true);
     }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                startGUI();
+            }
+        });
+    }
+
+    private static void startGUI() {
+        GameFrame gameFrame = new GameFrame();
+    }
 }

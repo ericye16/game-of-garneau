@@ -4,13 +4,15 @@ import tiled.view.OrthogonalRenderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Iterator;
 
 /**
  * Class to render maps based on Tiled map file (TMX) files.
  * More information on the Tiled Map Editor can be found here: http://www.mapeditor.org/
  */
-public class MapRenderer extends JPanel {
+public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
+    private DebugPanel debugPanel;
     protected GameEngine gameEngine = new GameEngine(this);
     protected TileSet tileSet;
     protected Map tiledmap;
@@ -66,5 +68,62 @@ public class MapRenderer extends JPanel {
 
         //what's our background colour?
         bgcolour = new Color(100, 100, 100);
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
+    }
+
+    public void setDebugPanel(DebugPanel debugPanel) {
+        this.debugPanel = debugPanel;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * Class to render maps based on Tiled map file (TMX) files.
@@ -18,6 +19,9 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
     protected Map tiledmap;
     protected Color bgcolour;
     protected tiled.view.MapRenderer tiledMapRenderer; //really unfortunate name collision
+    final private int tileHeight = 32;
+    final private int tileWidth = 32;
+    private static Logger logger = Logger.getLogger("MapRenderer");
 
     public void renderEntityAt(Entity entity, double[] location) {
         assert(location.length == 3);
@@ -71,6 +75,9 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
 
         addMouseListener(this);
         addMouseMotionListener(this);
+        addKeyListener(this);
+        setFocusable(true);
+        requestFocusInWindow();
     }
 
     public void setDebugPanel(DebugPanel debugPanel) {
@@ -109,7 +116,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        if (debugPanel != null) {
+            debugPanel.updateMouseLocation(e.getX(), e.getY());
+            debugPanel.updateTileLocation(e.getX() / tileWidth, e.getY() / tileHeight);
+        }
     }
 
     @Override
@@ -119,11 +129,15 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (debugPanel != null) {
+            debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.ADD, e.getKeyCode());
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if (debugPanel != null) {
+            debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.REMOVE, e.getKeyCode());
+        }
     }
 }

@@ -7,6 +7,7 @@ public class DebugPanel extends JPanel {
     private JLabel mouseLocation = new JLabel();
     private JLabel tileLocation = new JLabel();
     private JLabel keysPressed = new JLabel();
+    private JLabel playerLocation = new JLabel();
     private static Logger logger = Logger.getLogger("DebugPanel");
 
     public void updateMouseLocation(int x, int y) {
@@ -43,12 +44,19 @@ public class DebugPanel extends JPanel {
         //logger.info(text);
     }
 
+    public void updatePlayerPosition(float x, float y) {
+        String text = "Pos: (" + x + ", " + y + ")";
+        playerLocation.setText(text);
+    }
+
     public DebugPanel() {
         add(mouseLocation);
         add(tileLocation);
         add(keysPressed);
+        add(playerLocation);
         updateTileLocation(0, 0);
         updateMouseLocation(0, 0);
+        updatePlayerPosition(0, 0);
         drawKeysPressed();
     }
 

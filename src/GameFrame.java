@@ -12,6 +12,7 @@ public class GameFrame extends JFrame {
         add(mapRenderer, BorderLayout.LINE_START);
         DebugPanel debugPanel = new DebugPanel();
         mapRenderer.setDebugPanel(debugPanel);
+        gameEngine.setDebugPanel(debugPanel);
         add(debugPanel, BorderLayout.PAGE_END);
         pack();
         setVisible(true);

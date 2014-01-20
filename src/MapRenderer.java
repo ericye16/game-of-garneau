@@ -45,6 +45,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
                 tiledMapRenderer.paintTileLayer(g2d, (TileLayer) layer);
             }
         }
+        g.setColor(Color.BLACK);
+        float[] location = gameEngine.getPlayerLocation();
+        logger.info("Player location: " + location[0] + ", " + location[1]);
+        g.fillRect((int) location[0],(int)  location[1], (int) location[0] + 16, (int) location[1] + 16);
     }
 
     public MapRenderer() {
@@ -135,7 +139,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
     public void keyPressed(KeyEvent e) {
         if (debugPanel != null) {
             debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.ADD, e.getKeyCode());
+            gameEngine.keyPressed(e);
         }
+
+
     }
 
     @Override
@@ -143,5 +150,6 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         if (debugPanel != null) {
             debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.REMOVE, e.getKeyCode());
         }
+        gameEngine.keyPressed(e);
     }
 }

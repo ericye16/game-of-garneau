@@ -50,6 +50,7 @@ public class GameEngine {
         bodyDef.linearVelocity = new Vec2(0, 0);
         polygonShape.setAsBox(16, 16);
         fixtureDef.shape = polygonShape;
+        fixtureDef.friction = 0;
         playerStudentBody = world.createBody(bodyDef);
         playerStudentBody.createFixture(fixtureDef);
         gameTimer.scheduleAtFixedRate(new TimerTask() {
@@ -59,7 +60,9 @@ public class GameEngine {
                 world.step(0.033f, 8, 3);
                 if (debugPanel != null) {
                     Vec2 playerPosition = playerStudentBody.getPosition();
-                    debugPanel.updatePlayerPosition(playerPosition.x, playerPosition.y);
+                    float[] playerPositionFloat = getPlayerLocation();
+                    debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
+                    debugPanel.repaint();
                 }
             }
         }, 0, 33);

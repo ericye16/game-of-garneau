@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
     private DebugPanel debugPanel;
     private final String[] filenames = new String[] {"floor1", "floor2", "floor3"};
-    protected GameEngine gameEngine = new GameEngine(this);
+    protected GameEngine gameEngine;
     protected TileSet tileSet;
     protected Map[] tiledmap = new Map[filenames.length];
     protected Color bgcolour;
@@ -47,7 +47,7 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         }
         g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();
-        logger.info("Player location: " + location[0] + ", " + location[1]);
+        logger.info("Player location: " + gameEngine.getPlayerStudentBody().getPosition());
         g.fillRect((int) location[0],(int)  location[1], (int) location[0] + 16, (int) location[1] + 16);
     }
 
@@ -61,6 +61,26 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         }
         setOpaque(true);
 
+        //what's our background colour?
+        bgcolour = new Color(100, 100, 100);
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        addKeyListener(this);
+        setFocusable(true);
+        requestFocusInWindow();
+    }
+
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
+    }
+
+    public void setDebugPanel(DebugPanel debugPanel) {
+        this.debugPanel = debugPanel;
+        initializeWithGameEngine();
+    }
+
+    private void initializeWithGameEngine() {
         //we draw the entire map
         int width = tiledmap[currentFloor].getWidth() * tiledmap[currentFloor].getTileWidth();
         int height = tiledmap[currentFloor].getHeight() * tiledmap[currentFloor].getTileHeight();
@@ -73,23 +93,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         tiledMapRenderer = new OrthogonalRenderer(tiledmap[currentFloor]);
         ObjectGroup collisionGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(1);
         Iterator<MapObject> objects= collisionGroup.getObjects();
-        while(objects.hasNext()) {
+        /*while(objects.hasNext()) {
             MapObject obj = objects.next();
             gameEngine.addCollisionArea(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), null);
-        }
-
-        //what's our background colour?
-        bgcolour = new Color(100, 100, 100);
-
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        addKeyListener(this);
-        setFocusable(true);
-        requestFocusInWindow();
-    }
-
-    public void setDebugPanel(DebugPanel debugPanel) {
-        this.debugPanel = debugPanel;
+        }*/
     }
 
     @Override

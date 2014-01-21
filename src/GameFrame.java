@@ -11,6 +11,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(mapRenderer, BorderLayout.LINE_START);
         DebugPanel debugPanel = new DebugPanel();
+        mapRenderer.setGameEngine(gameEngine);
         mapRenderer.setDebugPanel(debugPanel);
         gameEngine.setDebugPanel(debugPanel);
         add(debugPanel, BorderLayout.PAGE_END);

@@ -12,7 +12,7 @@ import sun.util.logging.resources.logging;
 
 public class GameEngine {
     private ArrayList<Entity> entities;
-    private MapRenderer mapRenderer;
+    public MapRenderer mapRenderer;
     private World world;
     private BodyDef bodyDef = new BodyDef();
     private FixtureDef fixtureDef = new FixtureDef();
@@ -22,6 +22,7 @@ public class GameEngine {
     private HashSet<Integer> keysPressed = new HashSet<Integer>();
     private Logger logger = Logger.getLogger("GameEngine");
     private Timer gameTimer = new Timer();
+    private Timer renderTimer = new Timer();
     private DebugPanel debugPanel;
 
     private void renderEntities() {
@@ -34,7 +35,7 @@ public class GameEngine {
        renderEntities();
     }
 
-    public GameEngine(MapRenderer mapRenderer) {
+    public GameEngine(final MapRenderer mapRenderer) {
         assert(mapRenderer != null);
         this.mapRenderer = mapRenderer;
 
@@ -62,10 +63,17 @@ public class GameEngine {
                     Vec2 playerPosition = playerStudentBody.getPosition();
                     float[] playerPositionFloat = getPlayerLocation();
                     debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
+                    logger.info(playerPosition.x + "," + playerPosition.y);
                     debugPanel.repaint();
                 }
             }
         }, 0, 33);
+        renderTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                mapRenderer.repaint();
+            }
+        }, 0, 50);
     }
 
     public void addCollisionArea(float x, float y, float xsize, float ysize, Entity entity) {
@@ -116,13 +124,16 @@ public class GameEngine {
         Vec2 linearVelocity = new Vec2(right, up);
 
         playerStudentBody.setLinearVelocity(linearVelocity);
-        mapRenderer.repaint();
         logger.info("Moving with linVel: " + linearVelocity);
     }
 
     public float[] getPlayerLocation() {
         Vec2 position = playerStudentBody.getPosition();
         return new float[] {position.x, position.y};
+    }
+
+    public Body getPlayerStudentBody() {
+        return playerStudentBody;
     }
 
     public void setDebugPanel(DebugPanel debugPanel) {

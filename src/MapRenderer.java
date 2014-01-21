@@ -47,8 +47,7 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         }
         g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();
-        logger.info("Player location: " + gameEngine.getPlayerStudentBody().getPosition());
-        g.fillRect((int) location[0],(int)  location[1], (int) location[0] + 16, (int) location[1] + 16);
+        g.fillRect((int) location[0],(int)  location[1], 16, 16);
     }
 
     public MapRenderer() {
@@ -157,6 +156,6 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         if (debugPanel != null) {
             debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.REMOVE, e.getKeyCode());
         }
-        gameEngine.keyPressed(e);
+        gameEngine.keyReleased(e);
     }
 }

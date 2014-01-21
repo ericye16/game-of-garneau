@@ -11,6 +11,8 @@ import org.jbox2d.dynamics.*;
 import sun.util.logging.resources.logging;
 
 public class GameEngine {
+    final static float speed = 64.f;
+
     private ArrayList<Entity> entities;
     public MapRenderer mapRenderer;
     private World world;
@@ -106,22 +108,22 @@ public class GameEngine {
         float up = 0.f;
         float right = 0.f;
         if (keysPressed.contains(KeyEvent.VK_W)) {
-            up+= 1.f;
+            up+= speed;
         }
         if (keysPressed.contains(KeyEvent.VK_S)) {
-            up-= 1.f;
+            up-= speed;
         }
         if (keysPressed.contains(KeyEvent.VK_D)) {
-            right+=1.f;
+            right+=speed;
         }
         if (keysPressed.contains(KeyEvent.VK_A)) {
-            right-=1.f;
+            right-=speed;
         }
         if (right != 0 && up != 0) {
-            right /= Math.sqrt(2);
-            up /= Math.sqrt(2);
+            right /= Math.sqrt(2 * speed);
+            up /= Math.sqrt(2 *speed);
         }
-        Vec2 linearVelocity = new Vec2(right, up);
+        Vec2 linearVelocity = new Vec2(right, -up);
 
         playerStudentBody.setLinearVelocity(linearVelocity);
         logger.info("Moving with linVel: " + linearVelocity);

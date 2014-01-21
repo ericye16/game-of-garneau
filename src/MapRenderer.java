@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
     private DebugPanel debugPanel;
-    private final String[] filenames = new String[] {"floor1", "floor2", "floor3"};
+    private final String[] filenames = new String[] {"map", "floor1", "floor2", "floor3"};
     protected GameEngine gameEngine;
     protected TileSet tileSet;
     protected Map[] tiledmap = new Map[filenames.length];
@@ -45,9 +45,15 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
                 tiledMapRenderer.paintTileLayer(g2d, (TileLayer) layer);
             }
         }
+        g.setColor(Color.RED);
+        Iterator<MapObject> objects = ((ObjectGroup) tiledmap[currentFloor].getLayer(1)).iterator();
+        while (objects.hasNext()) {
+            MapObject object = objects.next();
+            g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
+        }
         g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();
-        g.fillRect((int) location[0],(int)  location[1], 16, 16);
+        g.fillRect((int) tiles2pixels(location[0]),(int)  tiles2pixels(location[1]), 16, 16);
     }
 
     public MapRenderer() {
@@ -68,6 +74,14 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
+    }
+
+    private static float pixel2tiles(float px) {
+        return px / 32;
+    }
+
+    private static float tiles2pixels(float tiles) {
+        return tiles * 32;
     }
 
     public void setGameEngine(GameEngine gameEngine) {
@@ -92,10 +106,11 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         tiledMapRenderer = new OrthogonalRenderer(tiledmap[currentFloor]);
         ObjectGroup collisionGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(1);
         Iterator<MapObject> objects= collisionGroup.getObjects();
-        /*while(objects.hasNext()) {
+        while(objects.hasNext()) {
             MapObject obj = objects.next();
-            gameEngine.addCollisionArea(obj.getX(), obj.getY(), obj.getWidth(), obj.getHeight(), null);
-        }*/
+            gameEngine.addCollisionArea(pixel2tiles(obj.getX()), pixel2tiles(obj.getY()), pixel2tiles(obj.getWidth()),
+                    pixel2tiles(obj.getHeight()), null);
+        }
     }
 
     @Override

@@ -8,17 +8,13 @@ import java.util.logging.Logger;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
-import sun.util.logging.resources.logging;
 
 public class GameEngine {
-    final static float speed = 64.f;
+    final static float SPEED = 2.f;
 
     private ArrayList<Entity> entities;
     public MapRenderer mapRenderer;
     private World world;
-    private BodyDef bodyDef = new BodyDef();
-    private FixtureDef fixtureDef = new FixtureDef();
-    private PolygonShape polygonShape = new PolygonShape();
     private PlayerStudent playerStudent;
     private Body playerStudentBody;
     private HashSet<Integer> keysPressed = new HashSet<Integer>();
@@ -45,17 +41,20 @@ public class GameEngine {
         world.setAllowSleep(true);
         world.setContinuousPhysics(false);
         playerStudent = new PlayerStudent();
-        bodyDef.type = BodyType.DYNAMIC;
-        bodyDef.active = true;
-        bodyDef.allowSleep = true;
-        bodyDef.position = new Vec2((float) playerStudent.getLocation()[0], (float) playerStudent.getLocation()[1]);
-        bodyDef.userData = playerStudent;
-        bodyDef.linearVelocity = new Vec2(0, 0);
+        BodyDef playerBodyDef = new BodyDef();
+        playerBodyDef.type = BodyType.DYNAMIC;
+        playerBodyDef.active = true;
+        playerBodyDef.allowSleep = true;
+        playerBodyDef.position = new Vec2((float) playerStudent.getLocation()[0], (float) playerStudent.getLocation()[1]);
+        playerBodyDef.userData = playerStudent;
+        playerBodyDef.linearVelocity = new Vec2(0, 0);
+        PolygonShape polygonShape = new PolygonShape();
         polygonShape.setAsBox(16, 16);
-        fixtureDef.shape = polygonShape;
-        fixtureDef.friction = 0;
-        playerStudentBody = world.createBody(bodyDef);
-        playerStudentBody.createFixture(fixtureDef);
+        FixtureDef playerFixture = new FixtureDef();
+        playerFixture.shape = polygonShape;
+        playerFixture.friction = 0;
+        playerStudentBody = world.createBody(playerBodyDef);
+        playerStudentBody.createFixture(playerFixture);
         gameTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -65,7 +64,7 @@ public class GameEngine {
                     Vec2 playerPosition = playerStudentBody.getPosition();
                     float[] playerPositionFloat = getPlayerLocation();
                     debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
-                    logger.info(playerPosition.x + "," + playerPosition.y);
+                    //logger.info(playerPosition.x + "," + playerPosition.y);
                     debugPanel.repaint();
                 }
             }
@@ -79,15 +78,22 @@ public class GameEngine {
     }
 
     public void addCollisionArea(float x, float y, float xsize, float ysize, Entity entity) {
-        bodyDef.type = BodyType.STATIC;
-        bodyDef.active = true;
-        bodyDef.allowSleep = true;
-        bodyDef.position = new Vec2(x, y);
-        bodyDef.userData = entity;
-        polygonShape.setAsBox(xsize / 2, ysize / 2);
-        fixtureDef.shape = polygonShape;
-        Body body1 = world.createBody(bodyDef);
-        body1.createFixture(fixtureDef);
+        BodyDef bodyDef1 = new BodyDef();
+        bodyDef1.type = BodyType.STATIC;
+        bodyDef1.active = true;
+        bodyDef1.allowSleep = true;
+        bodyDef1.position = new Vec2(x - xsize / 2, y - ysize / 2);
+        bodyDef1.userData = entity;
+        bodyDef1.linearVelocity = new Vec2(0, 0);
+        PolygonShape polygonShape1 = new PolygonShape();
+        polygonShape1.setAsBox(xsize / 2, ysize / 2);
+        FixtureDef fixtureDef1 = new FixtureDef();
+        fixtureDef1.shape = polygonShape1;
+        fixtureDef1.restitution = 0;
+        fixtureDef1.friction = 0;
+        Body body1 = world.createBody(bodyDef1);
+        logger.info("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
+        body1.createFixture(fixtureDef1);
     }
 
     public World getWorld() {
@@ -108,25 +114,25 @@ public class GameEngine {
         float up = 0.f;
         float right = 0.f;
         if (keysPressed.contains(KeyEvent.VK_W)) {
-            up+= speed;
+            up+= SPEED;
         }
         if (keysPressed.contains(KeyEvent.VK_S)) {
-            up-= speed;
+            up-= SPEED;
         }
         if (keysPressed.contains(KeyEvent.VK_D)) {
-            right+=speed;
+            right+= SPEED;
         }
         if (keysPressed.contains(KeyEvent.VK_A)) {
-            right-=speed;
+            right-= SPEED;
         }
         if (right != 0 && up != 0) {
-            right /= Math.sqrt(2 * speed);
-            up /= Math.sqrt(2 *speed);
+            right /= Math.sqrt(2 * SPEED);
+            up /= Math.sqrt(2 * SPEED);
         }
         Vec2 linearVelocity = new Vec2(right, -up);
 
         playerStudentBody.setLinearVelocity(linearVelocity);
-        logger.info("Moving with linVel: " + linearVelocity);
+        //logger.info("Moving with linVel: " + linearVelocity);
     }
 
     public float[] getPlayerLocation() {

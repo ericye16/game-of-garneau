@@ -63,7 +63,6 @@ public class GameEngine {
                 updateState();
                 world.step(0.033f, 8, 3);
                 if (debugPanel != null) {
-                    Vec2 playerPosition = playerStudentBody.getPosition();
                     float[] playerPositionFloat = getPlayerLocation();
                     debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
                     //logger.info(playerPosition.x + "," + playerPosition.y);

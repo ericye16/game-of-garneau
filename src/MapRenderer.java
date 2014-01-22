@@ -48,17 +48,19 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
                 tiledMapRenderer.paintTileLayer(g2d, (TileLayer) layer);
             }
         }
-        g.setColor(Color.RED);
-        Iterator<MapObject> objects = ((ObjectGroup) tiledmap[currentFloor].getLayer(1)).iterator();
-        while (objects.hasNext()) {
-            MapObject object = objects.next();
-            g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
-        }
-        g.setColor(Color.BLUE);
-        for (Body collisionBody: gameEngine.getCollisionBodies()) {
-            Vec2 position = collisionBody.getPosition();
-            PolygonShape polygonShape = (PolygonShape) collisionBody.getFixtureList().getShape();
-            g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
+        if (debugPanel != null) {
+            g.setColor(Color.RED);
+            Iterator<MapObject> objects = ((ObjectGroup) tiledmap[currentFloor].getLayer(1)).iterator();
+            while (objects.hasNext()) {
+                MapObject object = objects.next();
+                g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
+            }
+            g.setColor(Color.BLUE);
+            for (Body collisionBody: gameEngine.getCollisionBodies()) {
+                Vec2 position = collisionBody.getPosition();
+                PolygonShape polygonShape = (PolygonShape) collisionBody.getFixtureList().getShape();
+                g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
+            }
         }
         g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();

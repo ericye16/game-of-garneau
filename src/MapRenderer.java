@@ -124,6 +124,16 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
                     pixel2tiles(obj.getHeight()), null);
             }
         }
+
+        ObjectGroup doorGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(2);
+        Iterator<MapObject> doors = doorGroup.getObjects();
+        while (doors.hasNext()) {
+            MapObject door = doors.next();
+            if (door != null) {
+                gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
+                        pixel2tiles(door.getHeight()), "door");
+            }
+        }
     }
 
     @Override

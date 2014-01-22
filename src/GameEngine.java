@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
@@ -23,6 +24,7 @@ public class GameEngine {
     private Timer renderTimer = new Timer();
     private DebugPanel debugPanel;
     private ArrayList<Body> collisionBodies = new ArrayList<Body>();
+    private GameContactListener gameContactListener = new GameContactListener();
 
     private void renderEntities() {
         for (Entity entity: entities) {
@@ -41,6 +43,7 @@ public class GameEngine {
         this.world = new World(new Vec2(0, 0));
         world.setAllowSleep(true);
         world.setContinuousPhysics(false);
+        world.setContactListener(gameContactListener);
         playerStudent = new PlayerStudent();
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyType.DYNAMIC;
@@ -78,13 +81,13 @@ public class GameEngine {
         }, 0, 50);
     }
 
-    public void addCollisionArea(float x, float y, float xsize, float ysize, Entity entity) {
+    public void addCollisionArea(float x, float y, float xsize, float ysize, Object userdata) {
         BodyDef bodyDef1 = new BodyDef();
         bodyDef1.type = BodyType.STATIC;
         bodyDef1.active = true;
         bodyDef1.allowSleep = true;
         bodyDef1.position = new Vec2(x + xsize / 2, y + ysize / 2);
-        bodyDef1.userData = entity;
+        bodyDef1.userData = userdata;
         bodyDef1.linearVelocity = new Vec2(0, 0);
         PolygonShape polygonShape1 = new PolygonShape();
         polygonShape1.setAsBox(xsize / 2, ysize / 2);

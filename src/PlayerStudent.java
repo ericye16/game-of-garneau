@@ -15,7 +15,7 @@ public class PlayerStudent extends Entity {
 
     /**
      * Initializes a playable student
-     * Their location is near the office entrance
+     * Default location is near the office entrance, on the first floor
      */
     public PlayerStudent () {
         sleep = 100;

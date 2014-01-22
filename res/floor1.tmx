@@ -42,49 +42,15 @@
   <object x="321" y="274">
    <polyline points="0,0 0,-3 220,-2"/>
   </object>
-  <object x="669" y="286">
-   <polyline points="0,0 1,-285"/>
-  </object>
-  <object x="670" y="1">
-   <polyline points="0,0 -668,2"/>
-  </object>
-  <object x="2" y="2">
-   <polyline points="0,0 0,667"/>
-  </object>
-  <object x="2" y="668">
-   <polyline points="0,0 155,1"/>
-  </object>
-  <object x="224" y="669">
-   <polyline points="0,0 445,-2"/>
-  </object>
-  <object x="669" y="667">
-   <polyline points="0,0 1,-314"/>
-  </object>
  </objectgroup>
  <objectgroup name="Doors" width="21" height="21">
-  <object x="289" y="272">
-   <polyline points="0,0 30,0"/>
-  </object>
-  <object x="543" y="272">
-   <polyline points="0,0 33,0"/>
-  </object>
-  <object x="176" y="198">
-   <polyline points="0,0 0,-72"/>
-  </object>
-  <object x="94" y="367">
-   <polyline points="0,0 -33,0"/>
-  </object>
-  <object x="175" y="543">
-   <polyline points="0,0 0,32"/>
-  </object>
-  <object x="368" y="447">
-   <polyline points="0,0 0,34"/>
-  </object>
-  <object x="543" y="367">
-   <polyline points="0,0 32,0"/>
-  </object>
-  <object x="367" y="573">
-   <polyline points="0,0 0,35"/>
-  </object>
+  <object x="541" y="260" width="38" height="9"/>
+  <object x="290" y="261" width="29" height="9"/>
+  <object x="541" y="368" width="33" height="8"/>
+  <object x="361" y="446" width="7" height="33"/>
+  <object x="362" y="573" width="7" height="34"/>
+  <object x="170" y="543" width="6" height="34"/>
+  <object x="62" y="366" width="36" height="5"/>
+  <object x="168" y="128" width="8" height="62"/>
  </objectgroup>
 </map>

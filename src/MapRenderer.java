@@ -28,10 +28,6 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
     private static Logger logger = Logger.getLogger("MapRenderer");
     private int currentFloor = 0;
 
-    public void renderEntityAt(Entity entity, double[] location) {
-        assert(location.length == 3);
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         final Graphics2D g2d = (Graphics2D) g.create();
@@ -50,15 +46,12 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         }
         if (debugPanel != null) {
             g.setColor(Color.RED);
-            Iterator<MapObject> objects = ((ObjectGroup) tiledmap[currentFloor].getLayer(1)).iterator();
-            while (objects.hasNext()) {
-                MapObject object = objects.next();
+            for (MapObject object : ((ObjectGroup) tiledmap[currentFloor].getLayer(2))) {
                 g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
             }
             g.setColor(Color.BLUE);
             for (Body collisionBody: gameEngine.getCollisionBodies()) {
                 Vec2 position = collisionBody.getPosition();
-                PolygonShape polygonShape = (PolygonShape) collisionBody.getFixtureList().getShape();
                 g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
             }
         }
@@ -126,13 +119,17 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         }
 
         ObjectGroup doorGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(2);
-        Iterator<MapObject> doors = doorGroup.getObjects();
-        while (doors.hasNext()) {
-            MapObject door = doors.next();
-            if (door != null) {
-                gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
-                        pixel2tiles(door.getHeight()), "door");
+        if (doorGroup != null) {
+            Iterator<MapObject> doors = doorGroup.getObjects();
+            while (doors.hasNext()) {
+                MapObject door = doors.next();
+                if (door != null) {
+                    gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
+                            pixel2tiles(door.getHeight()), "door");
+                }
             }
+        } else {
+            logger.warning("null second (door) layer on floor: " + currentFloor);
         }
     }
 

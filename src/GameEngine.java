@@ -5,13 +5,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.shapes.EdgeShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 
 public class GameEngine {
-    final static float SPEED = 2.f;
+    final static float SPEED = 4.f;
 
     private ArrayList<Entity> entities;
     public MapRenderer mapRenderer;
@@ -26,15 +26,13 @@ public class GameEngine {
     private ArrayList<Body> collisionBodies = new ArrayList<Body>();
     private GameContactListener gameContactListener = new GameContactListener();
 
-    private void renderEntities() {
-        for (Entity entity: entities) {
-            mapRenderer.renderEntityAt(entity, entity.getLocation());
-        }
-    }
-
-    public void render() {
-       renderEntities();
-    }
+    /**
+     * Performance settings. If you have issues with running the game, try lowering some of these.
+     */
+    final private static int RENDER_FPS = 60; //number of frames to render per second
+    final private static int PHYSICS_FPS = 30; //number of physics time steps per second
+    final private static int VELOCITY_ITERATIONS = 8; //quality of velocity calculations
+    final private static int POSITION_ITERATIONS = 6; //quality of position calculations
 
     public GameEngine(final MapRenderer mapRenderer) {
         assert(mapRenderer != null);
@@ -60,11 +58,13 @@ public class GameEngine {
         playerFixture.density = 5.f;
         playerStudentBody = world.createBody(playerBodyDef);
         playerStudentBody.createFixture(playerFixture);
+        addWalls();
+        logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
         gameTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 updateState();
-                world.step(0.033f, 8, 3);
+                world.step(1.f / PHYSICS_FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
                 if (debugPanel != null) {
                     float[] playerPositionFloat = getPlayerLocation();
                     debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
@@ -72,13 +72,14 @@ public class GameEngine {
                     debugPanel.repaint();
                 }
             }
-        }, 0, 33);
+        }, 0, 1000 / PHYSICS_FPS);
+        logger.info("Rendering at " + 1000 / RENDER_FPS);
         renderTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 mapRenderer.repaint();
             }
-        }, 0, 50);
+        }, 0, 1000 / RENDER_FPS);
     }
 
     public void addCollisionArea(float x, float y, float xsize, float ysize, Object userdata) {
@@ -99,6 +100,48 @@ public class GameEngine {
         logger.info("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
         body1.createFixture(fixtureDef1);
         collisionBodies.add(body1);
+    }
+
+    private void addWalls() {
+        class VertexPair {
+            public Vec2 a, b;
+            public VertexPair(Vec2 a, Vec2 b) {
+                this.a = a;
+                this.b = b;
+            }
+        }
+        int side1 = 21;
+        int side2 = 21;
+        VertexPair[] walls = new VertexPair[] {
+                new VertexPair(
+                        new Vec2 (0, 0),
+                        new Vec2(0, side1)
+                ),
+                new VertexPair(
+                        new Vec2(0, side1),
+                        new Vec2(side2, side1)
+                ),
+                new VertexPair(
+                        new Vec2(side2, side1),
+                        new Vec2(side2, 0)
+                ),
+                new VertexPair(
+                        new Vec2(side2, 0),
+                        new Vec2(0, 0)
+                )
+        };
+        for (VertexPair vertexPair: walls) {
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyType.STATIC;
+            bodyDef.active = true;
+            bodyDef.allowSleep = true;
+            FixtureDef fixtureDef = new FixtureDef();
+            EdgeShape edgeShape = new EdgeShape();
+            edgeShape.set(vertexPair.a, vertexPair.b);
+            fixtureDef.shape = edgeShape;
+            Body body = world.createBody(bodyDef);
+            body.createFixture(fixtureDef);
+        }
     }
 
     public World getWorld() {
@@ -127,10 +170,6 @@ public class GameEngine {
         }
         if (keysPressed.contains(KeyEvent.VK_A)) {
             right-= SPEED;
-        }
-        if (right != 0 && up != 0) {
-            right /= Math.sqrt(2 * SPEED);
-            up /= Math.sqrt(2 * SPEED);
         }
         Vec2 linearVelocity = new Vec2(right, -up);
 

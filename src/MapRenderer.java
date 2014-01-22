@@ -1,3 +1,6 @@
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import tiled.core.*;
 import tiled.io.TMXMapReader;
 import tiled.view.OrthogonalRenderer;
@@ -51,9 +54,15 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
             MapObject object = objects.next();
             g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
         }
+        g.setColor(Color.BLUE);
+        for (Body collisionBody: gameEngine.getCollisionBodies()) {
+            Vec2 position = collisionBody.getPosition();
+            PolygonShape polygonShape = (PolygonShape) collisionBody.getFixtureList().getShape();
+            g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
+        }
         g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();
-        g.fillRect((int) tiles2pixels(location[0]),(int)  tiles2pixels(location[1]), 16, 16);
+        g.fillRect((int) tiles2pixels(location[0]) - 8,(int)  tiles2pixels(location[1]) - 8, 16, 16);
     }
 
     public MapRenderer() {

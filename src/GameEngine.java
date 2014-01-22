@@ -22,6 +22,7 @@ public class GameEngine {
     private Timer gameTimer = new Timer();
     private Timer renderTimer = new Timer();
     private DebugPanel debugPanel;
+    private ArrayList<Body> collisionBodies = new ArrayList<Body>();
 
     private void renderEntities() {
         for (Entity entity: entities) {
@@ -49,7 +50,7 @@ public class GameEngine {
         playerBodyDef.userData = playerStudent;
         playerBodyDef.linearVelocity = new Vec2(0, 0);
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(1, 1);
+        polygonShape.setAsBox(0.25f, 0.25f);
         FixtureDef playerFixture = new FixtureDef();
         playerFixture.shape = polygonShape;
         playerFixture.friction = 0;
@@ -83,7 +84,7 @@ public class GameEngine {
         bodyDef1.type = BodyType.STATIC;
         bodyDef1.active = true;
         bodyDef1.allowSleep = true;
-        bodyDef1.position = new Vec2(x - xsize / 2, y - ysize / 2);
+        bodyDef1.position = new Vec2(x + xsize / 2, y + ysize / 2);
         bodyDef1.userData = entity;
         bodyDef1.linearVelocity = new Vec2(0, 0);
         PolygonShape polygonShape1 = new PolygonShape();
@@ -95,6 +96,7 @@ public class GameEngine {
         Body body1 = world.createBody(bodyDef1);
         logger.info("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
         body1.createFixture(fixtureDef1);
+        collisionBodies.add(body1);
     }
 
     public World getWorld() {
@@ -103,12 +105,10 @@ public class GameEngine {
 
     public void keyPressed(KeyEvent e) {
         keysPressed.add(e.getKeyCode());
-        //updateState();
     }
 
     public void keyReleased(KeyEvent e) {
         keysPressed.remove(e.getKeyCode());
-        //updateState();
     }
 
     private void updateState() {
@@ -149,4 +149,7 @@ public class GameEngine {
         this.debugPanel = debugPanel;
     }
 
+    public ArrayList<Body> getCollisionBodies() {
+        return collisionBodies;
+    }
 }

@@ -49,10 +49,11 @@ public class GameEngine {
         playerBodyDef.userData = playerStudent;
         playerBodyDef.linearVelocity = new Vec2(0, 0);
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(16, 16);
+        polygonShape.setAsBox(1, 1);
         FixtureDef playerFixture = new FixtureDef();
         playerFixture.shape = polygonShape;
         playerFixture.friction = 0;
+        playerFixture.density = 5.f;
         playerStudentBody = world.createBody(playerBodyDef);
         playerStudentBody.createFixture(playerFixture);
         gameTimer.scheduleAtFixedRate(new TimerTask() {

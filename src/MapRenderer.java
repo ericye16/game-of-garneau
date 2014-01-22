@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
     private DebugPanel debugPanel;
-    private final String[] filenames = new String[] {"map", "floor1", "floor2", "floor3"};
+    private final String[] filenames = new String[] {"floor1", "floor2", "floor3"};
     protected GameEngine gameEngine;
     protected TileSet tileSet;
     protected Map[] tiledmap = new Map[filenames.length];
@@ -108,8 +108,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
         Iterator<MapObject> objects= collisionGroup.getObjects();
         while(objects.hasNext()) {
             MapObject obj = objects.next();
-            gameEngine.addCollisionArea(pixel2tiles(obj.getX()), pixel2tiles(obj.getY()), pixel2tiles(obj.getWidth()),
+            if (obj != null) {
+                gameEngine.addCollisionArea(pixel2tiles(obj.getX()), pixel2tiles(obj.getY()), pixel2tiles(obj.getWidth()),
                     pixel2tiles(obj.getHeight()), null);
+            }
         }
     }
 

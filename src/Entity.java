@@ -11,6 +11,10 @@ public abstract class Entity {
         return location;
     }
 
+    public void setLocation(double[] location) {
+        this.location = location;
+    }
+
     /**
      * Must be overridden in subclasses. Returns true if the newLoc on the board is reachable.
      * @param newLoc A double array of length 3.

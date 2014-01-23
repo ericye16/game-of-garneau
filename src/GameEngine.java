@@ -14,17 +14,17 @@ public class GameEngine {
     final static float SPEED = 4.f;
 
     private ArrayList<Entity> entities;
-    public MapRenderer mapRenderer;
+    private MapRenderer mapRenderer;
     private World world;
     private PlayerStudent playerStudent;
     private Body playerStudentBody;
     private HashSet<Integer> keysPressed = new HashSet<Integer>();
     private Logger logger = Logger.getLogger("GameEngine");
-    private Timer gameTimer = new Timer();
-    private Timer renderTimer = new Timer();
+    private Timer gameTimer;
+    private Timer renderTimer;
     private DebugPanel debugPanel;
     private ArrayList<Body> collisionBodies = new ArrayList<Body>();
-    private GameContactListener gameContactListener = new GameContactListener();
+    private GameContactListener gameContactListener;
 
     /**
      * Performance settings. If you have issues with running the game, try lowering some of these.
@@ -37,49 +37,10 @@ public class GameEngine {
     public GameEngine(final MapRenderer mapRenderer) {
         assert(mapRenderer != null);
         this.mapRenderer = mapRenderer;
-
-        this.world = new World(new Vec2(0, 0));
-        world.setAllowSleep(true);
-        world.setContinuousPhysics(false);
-        world.setContactListener(gameContactListener);
+        gameContactListener = new GameContactListener(this);
         playerStudent = new PlayerStudent();
-        BodyDef playerBodyDef = new BodyDef();
-        playerBodyDef.type = BodyType.DYNAMIC;
-        playerBodyDef.active = true;
-        playerBodyDef.allowSleep = true;
-        playerBodyDef.position = new Vec2((float) playerStudent.getLocation()[0], (float) playerStudent.getLocation()[1]);
-        playerBodyDef.userData = playerStudent;
-        playerBodyDef.linearVelocity = new Vec2(0, 0);
-        PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(0.25f, 0.25f);
-        FixtureDef playerFixture = new FixtureDef();
-        playerFixture.shape = polygonShape;
-        playerFixture.friction = 0;
-        playerFixture.density = 5.f;
-        playerStudentBody = world.createBody(playerBodyDef);
-        playerStudentBody.createFixture(playerFixture);
-        addWalls();
-        logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
-        gameTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                updateState();
-                world.step(1.f / PHYSICS_FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-                if (debugPanel != null) {
-                    float[] playerPositionFloat = getPlayerLocation();
-                    debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
-                    //logger.info(playerPosition.x + "," + playerPosition.y);
-                    debugPanel.repaint();
-                }
-            }
-        }, 0, 1000 / PHYSICS_FPS);
-        logger.info("Rendering at " + 1000 / RENDER_FPS);
-        renderTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                mapRenderer.repaint();
-            }
-        }, 0, 1000 / RENDER_FPS);
+
+        resetWorld();
     }
 
     public void addCollisionArea(float x, float y, float xsize, float ysize, Object userdata) {
@@ -144,8 +105,51 @@ public class GameEngine {
         }
     }
 
-    public World getWorld() {
-        return world;
+    public void resetWorld() {
+        this.world = new World(new Vec2(0, 0));
+        world.setAllowSleep(true);
+        world.setContinuousPhysics(false);
+        world.setContactListener(gameContactListener);
+        BodyDef playerBodyDef = new BodyDef();
+        playerBodyDef.type = BodyType.DYNAMIC;
+        playerBodyDef.active = true;
+        playerBodyDef.allowSleep = true;
+        playerBodyDef.position = new Vec2((float) playerStudent.getLocation()[0], (float) playerStudent.getLocation()[1]);
+        playerBodyDef.userData = playerStudent;
+        playerBodyDef.linearVelocity = new Vec2(0, 0);
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(0.25f, 0.25f);
+        FixtureDef playerFixture = new FixtureDef();
+        playerFixture.shape = polygonShape;
+        playerFixture.friction = 0;
+        playerFixture.density = 5.f;
+        playerStudentBody = world.createBody(playerBodyDef);
+        playerStudentBody.createFixture(playerFixture);
+        addWalls();
+        logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
+        gameTimer = new Timer();
+        gameTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateState();
+                world.step(1.f / PHYSICS_FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+                if (debugPanel != null) {
+                    float[] playerPositionFloat = getPlayerLocation();
+                    debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
+                    //logger.info(playerPosition.x + "," + playerPosition.y);
+                    debugPanel.repaint();
+                }
+            }
+        }, 0, 1000 / PHYSICS_FPS);
+        logger.info("Rendering at " + 1000 / RENDER_FPS);
+        renderTimer = new Timer();
+        renderTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                mapRenderer.repaint();
+            }
+        }, 0, 1000 / RENDER_FPS);
+        collisionBodies.clear();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -180,6 +184,19 @@ public class GameEngine {
     public float[] getPlayerLocation() {
         Vec2 position = playerStudentBody.getPosition();
         return new float[] {position.x, position.y};
+    }
+
+    public void setPlayerLocation(double[] location) {
+        playerStudent.setLocation(location);
+    }
+
+    public void stopAll() {
+        renderTimer.cancel();
+        gameTimer.cancel();
+    }
+
+    public MapRenderer getMapRenderer() {
+        return mapRenderer;
     }
 
     public Body getPlayerStudentBody() {

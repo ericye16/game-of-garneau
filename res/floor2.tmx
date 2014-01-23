@@ -8,16 +8,10 @@
  </tileset>
  <layer name="Tile Layer 1" width="21" height="21">
   <data encoding="base64" compression="zlib">
-   eJzVkmsPgjAMRSsCU3lrjFES+P//khIgLKWbLY8PLDkfWNnJcu8qAHjuxAuG9UYuSMBwVcz674/ljJCYwShm5qTOOxIiD0Iyzuy90Jr5nMUK+n5Kj5N2m8Pcaw7LvgsmE0merizN6EwPcNKck41OV1YSZ4vcCI3nf/qWuHekvb+v96lf7mwmdNIO/91H4tSePYvTlZWkd+3+5Pwiv52o4bjVAQCwDyc=
+   eJzVlNEOgjAMRYegoCgDjDFiov//l94lLGmaFrqpDzycB9b0ZLl3YXDOjT/kCm6gADuBMmEWvj24z849OAjUCbN6o84jqMCJ0c4zelaR2ZLTZxD66RecvNuO9NoJfXshE0ueWpZx9/wHJ8+5JbnkOLWsLM43aBivlfvTtyS9o5xMtN5jv9LuxejkHa7dx+JM3d2KU8vK0nvq+bf/EI3gfICJEef83MITfADYtRGE
   </data>
  </layer>
  <objectgroup name="Collisions" width="21" height="21" opacity="0.46">
-  <object x="495" y="47">
-   <polyline points="0,0 97,0 97,257 -32,257 -31,242"/>
-  </object>
-  <object x="464" y="254">
-   <polyline points="0,0 0,-47 31,-47 32,-206"/>
-  </object>
   <object x="416" y="175">
    <polyline points="0,0 48,0 47,-128 -145,-128 -145,-1 -145,0 -34,0"/>
   </object>
@@ -39,14 +33,36 @@
   <object x="431" y="576">
    <polyline points="0,0 0,15 161,15 161,-240 146,-240"/>
   </object>
-  <object x="2" y="1">
-   <polyline points="0,0 637,0 637,636 637,638 -1,638 -2,1 -1,0"/>
-  </object>
   <object x="432" y="541">
    <polyline points="0,0 -1,-206 110,-206"/>
   </object>
   <object x="47" y="481">
    <polyline points="0,0 1,111 160,111 161,-51 0,-51 0,-35"/>
+  </object>
+  <object x="496" y="49" width="93" height="255"/>
+  <object x="464" y="208" width="32" height="95"/>
+ </objectgroup>
+ <objectgroup name="Doors" width="21" height="21">
+  <object x="461" y="257" width="7" height="32"/>
+  <object x="545" y="335" width="32" height="6"/>
+  <object x="428" y="543" width="7" height="31"/>
+  <object x="397" y="417" width="5" height="29"/>
+  <object x="255" y="236" width="33" height="7"/>
+  <object x="385" y="173" width="31" height="8"/>
+  <object x="65" y="173" width="29" height="5"/>
+  <object x="160" y="236" width="31" height="7"/>
+  <object x="43" y="447" width="7" height="33"/>
+ </objectgroup>
+ <objectgroup name="Specials" width="21" height="21">
+  <object x="663" y="288" width="7" height="67">
+   <properties>
+    <property name="special" value="upstaircase"/>
+   </properties>
+  </object>
+  <object x="163" y="664" width="61" height="8">
+   <properties>
+    <property name="special" value="downstaircase"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

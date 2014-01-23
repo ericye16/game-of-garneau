@@ -124,12 +124,12 @@ public class MapRenderer extends JPanel implements KeyListener {
             Iterator<MapObject> doors = doorGroup.getObjects();
             while (doors.hasNext()) {
                 MapObject door = doors.next();
+                if (door == null || !(door.getShape() instanceof Rectangle)) {
+                    logger.warning("Door problem! " + door);
+                }
                 if (door != null) {
                     gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
                             pixel2tiles(door.getHeight()), Entities.DOOR);
-                }
-                if (door == null || !(door.getShape() instanceof Rectangle)) {
-                    logger.warning("Door problem! " + door);
                 }
             }
         } else {
@@ -141,6 +141,9 @@ public class MapRenderer extends JPanel implements KeyListener {
             Iterator<MapObject> specials = specialsGroup.getObjects();
             while (specials.hasNext()) {
                 MapObject special = specials.next();
+                if (special == null || !(special.getShape() instanceof Rectangle)) {
+                    logger.warning("Special problem! " + special);
+                }
                 if (special != null) {
                     Entities specialEntity = null;
                     String specialProperty = special.getProperties().getProperty("special");
@@ -152,13 +155,57 @@ public class MapRenderer extends JPanel implements KeyListener {
                     gameEngine.addCollisionArea(pixel2tiles(special.getX()), pixel2tiles(special.getY()), pixel2tiles(special.getWidth()),
                             pixel2tiles(special.getHeight()), specialEntity);
                 }
-                if (special == null || !(special.getShape() instanceof Rectangle)) {
-                    logger.warning("Special problem! " + special);
-                }
             }
         } else {
             logger.severe("null third (special) layer on floor: " + currentFloor);
         }
+    }
+
+    public void goUpTheStairs() {
+        if (currentFloor >= 2) {
+            throw new IndexOutOfBoundsException();
+        }
+        currentFloor++;
+        switchFloors(currentFloor, true);
+    }
+
+    public void goDownTheStairs() {
+        if (currentFloor <= 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        currentFloor--;
+        switchFloors(currentFloor, false);
+    }
+
+    private void switchFloors(int floor, boolean goingUp) {
+        gameEngine.stopAll();
+        double[] newLocation;
+        if (goingUp) {
+            switch (floor) {
+                case 1:
+                    newLocation = new double[] {6, 19, 1};
+                    break;
+                case 2:
+                    newLocation = new double[] {6, 19, 2};
+                    break;
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        } else {
+            switch (floor) {
+                case 0:
+                    newLocation = new double[] {19, 9, 0};
+                    break;
+                case 1:
+                    newLocation = new double[] {19, 9, 1};
+                    break;
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        }
+        gameEngine.setPlayerLocation(newLocation);
+        gameEngine.resetWorld();
+        initializeWithGameEngine();
     }
 
     @Override

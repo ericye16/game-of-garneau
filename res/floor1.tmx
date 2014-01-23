@@ -8,7 +8,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="21" height="21">
   <data encoding="base64" compression="zlib">
-   eJzVk9EKwjAMRbt2WjeZRccm20D//y+9hRZCSKkrU+fDebkhB9pwr0qp24b0YAAV0AQDRiHP4ffuwXkAR4INTp7nsF92dn/i3Ot/NqAlnIMz5jWbc2qyF51jAY5B80HIt3D6vlxUvkdGyDTZLemRzdyt5O6fcHYrnE9wIjyCU8r39PZU33/9n1I3XSLnGZ975wRmRuwGz99hAS/CuxLs
+   eJzVk9EKgzAMRWt1dk46cUOHE+b//+VuoYUQImWl2+rDebkhB9pwR6XULSN3MIEKaEINZiGP4fYe3nkCLcF4J89jmB877UGcpf5nBy6E3jtD3rA5pyF7wTknMDBoPgl5Dqfry1XFe1QLmSa7KT0ykbul3P0bTvuBcwNnwss7pbykt+/1/d//KXVz2Ml5xufOuYBnRlbwBsgPEwI=
   </data>
  </layer>
  <objectgroup name="Collisions" width="21" height="21" opacity="0.9">
@@ -57,11 +57,6 @@
   <object x="660" y="287" width="10" height="64">
    <properties>
     <property name="special" value="upstaircase"/>
-   </properties>
-  </object>
-  <object x="159" y="663" width="64" height="8">
-   <properties>
-    <property name="special" value="downstaircase"/>
    </properties>
   </object>
  </objectgroup>

@@ -8,7 +8,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="21" height="21">
   <data encoding="base64" compression="zlib">
-   eJzdk90OgyAMhTs3NYDDTGP2e+H7P+VKhIw0RQiDG0m+C1s44XDqDQCmQsywrQU5IQ3hw9QMZ2Rkzpj63dNskY7wYGqG3mrSM30BzaGCZo17xjQFckGkx0q+pd2jEjVphhp+2Wvgc8/xHvLvvAviQRXQ5PhXM2fmY5qx+aRvs5d9bu7OC1d3vZgm9eH2hN6E66XM0hE0rwmaXO4qUA/1/P/oibwK8YZ66wtnxQ/R
+   eJzdk8kOwjAMRMNatYEiQKhlOfD/X8lEiqVqZDchpBcO79BxPKozztk5d6nIFdzACqyJl6IFNuCk9Ig+RM8d2BOjogWa2Ms9TQXPwwKeS/xnyrMFW9BNeNN3F8/4TE/OsJ9k3zs935LZrfmlt6UZfAVPi188S3Y+5ZnaT76buexLc5dZNF1qKU+eQ85Yd6LVcnbpHzyPGZ5a7t7QrRq/o7l38S3B8w4ehNRZz+EJPnc5Ej4=
   </data>
  </layer>
  <objectgroup name="Collisions" width="21" height="21">
@@ -41,6 +41,23 @@
   </object>
   <object x="47" y="445">
    <polyline points="0,0 0,-14 160,-13 161,147 1,146 0,36"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Doors" width="21" height="21">
+  <object x="460" y="97" width="8" height="28"/>
+  <object x="352" y="202" width="30" height="9"/>
+  <object x="63" y="202" width="32" height="9"/>
+  <object x="159" y="233" width="29" height="11"/>
+  <object x="258" y="235" width="29" height="8"/>
+  <object x="462" y="354" width="6" height="28"/>
+  <object x="429" y="543" width="6" height="31"/>
+  <object x="45" y="448" width="6" height="31"/>
+ </objectgroup>
+ <objectgroup name="Special" width="21" height="21">
+  <object x="161" y="663" width="62" height="9">
+   <properties>
+    <property name="special" value="downstaircase"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

@@ -53,4 +53,16 @@
   <object x="62" y="366" width="36" height="5"/>
   <object x="168" y="128" width="8" height="62"/>
  </objectgroup>
+ <objectgroup name="Special" width="21" height="21">
+  <object x="660" y="287" width="10" height="64">
+   <properties>
+    <property name="special" value="upstaircase"/>
+   </properties>
+  </object>
+  <object x="159" y="663" width="64" height="8">
+   <properties>
+    <property name="special" value="downstaircase"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

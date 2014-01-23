@@ -2,9 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-/**
- * Created by Yaning on 20/01/14.
- */
 public class StatsPanel extends JPanel {
 
     public StatsPanel (int width, int height)                    //constructor initializes size

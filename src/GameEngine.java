@@ -97,7 +97,7 @@ public class GameEngine {
         fixtureDef1.restitution = 0;
         fixtureDef1.friction = 0;
         Body body1 = world.createBody(bodyDef1);
-        logger.info("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
+        logger.fine("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
         body1.createFixture(fixtureDef1);
         collisionBodies.add(body1);
     }

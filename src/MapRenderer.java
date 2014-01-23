@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * Class to render maps based on Tiled map file (TMX) files.
  * More information on the Tiled Map Editor can be found here: http://www.mapeditor.org/
  */
-public class MapRenderer extends JPanel implements MouseMotionListener, MouseListener, KeyListener {
+public class MapRenderer extends JPanel implements KeyListener {
     private DebugPanel debugPanel;
     private final String[] filenames = new String[] {"floor1", "floor2", "floor3"};
     protected GameEngine gameEngine;
@@ -49,6 +49,10 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
             for (MapObject object : ((ObjectGroup) tiledmap[currentFloor].getLayer(2))) {
                 g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
             }
+            g.setColor(Color.YELLOW);
+            for (MapObject object: ((ObjectGroup) tiledmap[currentFloor].getLayer(3))) {
+                g.drawRect(object.getX(), object.getY(), object.getWidth(), object.getHeight());
+            }
             g.setColor(Color.BLUE);
             for (Body collisionBody: gameEngine.getCollisionBodies()) {
                 Vec2 position = collisionBody.getPosition();
@@ -72,9 +76,6 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
 
         //what's our background colour?
         bgcolour = new Color(100, 100, 100);
-
-        addMouseListener(this);
-        addMouseMotionListener(this);
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
@@ -125,55 +126,44 @@ public class MapRenderer extends JPanel implements MouseMotionListener, MouseLis
                 MapObject door = doors.next();
                 if (door != null) {
                     gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
-                            pixel2tiles(door.getHeight()), "door");
+                            pixel2tiles(door.getHeight()), Entities.DOOR);
+                }
+                if (door == null || !(door.getShape() instanceof Rectangle)) {
+                    logger.warning("Door problem! " + door);
                 }
             }
         } else {
-            logger.warning("null second (door) layer on floor: " + currentFloor);
+            logger.severe("null second (door) layer on floor: " + currentFloor);
+        }
+
+        ObjectGroup specialsGroup = (ObjectGroup) tiledmap[currentFloor].getLayer(3);
+        if (specialsGroup != null) {
+            Iterator<MapObject> specials = specialsGroup.getObjects();
+            while (specials.hasNext()) {
+                MapObject special = specials.next();
+                if (special != null) {
+                    Entities specialEntity = null;
+                    String specialProperty = special.getProperties().getProperty("special");
+                    if (specialProperty.equals("upstaircase")) specialEntity = Entities.STAIRS_UP;
+                    else if (specialProperty.equals("downstaircase")) specialEntity = Entities.STAIRS_DOWN;
+                    else {
+                        logger.warning("special property did not match anything known: " + specialProperty);
+                    }
+                    gameEngine.addCollisionArea(pixel2tiles(special.getX()), pixel2tiles(special.getY()), pixel2tiles(special.getWidth()),
+                            pixel2tiles(special.getHeight()), specialEntity);
+                }
+                if (special == null || !(special.getShape() instanceof Rectangle)) {
+                    logger.warning("Special problem! " + special);
+                }
+            }
+        } else {
+            logger.severe("null third (special) layer on floor: " + currentFloor);
         }
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void keyTyped(KeyEvent keyEvent) {
 
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        if (debugPanel != null) {
-            debugPanel.updateMouseLocation(e.getX(), e.getY());
-            debugPanel.updateTileLocation(e.getX() / tileWidth, e.getY() / tileHeight);
-        }
     }
 
     @Override

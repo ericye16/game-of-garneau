@@ -6,6 +6,9 @@ public class GameFrame extends JFrame {
     private final MapRenderer mapRenderer = new MapRenderer();
     private final GameEngine gameEngine = new GameEngine(mapRenderer);
 
+    /**
+     * Constructor for the main window and all the initialization code.
+     */
     public GameFrame() {
         setTitle("Game of Garneau, v." + Version.version);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

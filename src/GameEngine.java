@@ -10,11 +10,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+/**
+ * Class to handle the motion and interaction with the physics and collisions involved.
+ * Extensively uses the jbox2d physics engine. More information can be found here:
+ * http://jbox2d.org/
+ */
 public class GameEngine {
     final static float SPEED = 4.f;
-    final static float ENEMY_SPEED = 1.f * SPEED;
+    static float ENEMY_SPEED = 0.7f * SPEED;
 
-    private ArrayList<Entity> entities;
     private MapRenderer mapRenderer;
     private World world;
     private PlayerStudent playerStudent;
@@ -27,7 +31,8 @@ public class GameEngine {
     private ArrayList<Body> collisionBodies = new ArrayList<Body>();
     private GameContactListener gameContactListener;
     private ArrayList<Body> enemyBodies = new ArrayList<Body>();
-    private int numEnemiesPerLevel = 1;
+    private int numEnemiesPerLevel = 0;
+    private boolean paused = false;
 
     /**
      * Performance settings. If you have issues with running the game, try lowering some of these.
@@ -37,6 +42,10 @@ public class GameEngine {
     final private static int VELOCITY_ITERATIONS = 8; //quality of velocity calculations
     final private static int POSITION_ITERATIONS = 6; //quality of position calculations
 
+    /**
+     * Constructor for the GameEngine class.
+     * @param mapRenderer The MapRenderer to attach to the Game Engine
+     */
     public GameEngine(final MapRenderer mapRenderer) {
         assert(mapRenderer != null);
         this.mapRenderer = mapRenderer;
@@ -46,7 +55,16 @@ public class GameEngine {
         resetWorld();
     }
 
+    /**
+     * Add a collision area to the world, such as a classroom or a door.
+     * @param x The x-location of the left top corner of the area, in tiles.
+     * @param y The y-location of the left top corner of the area in tiles.
+     * @param xsize The width of the area in tiles.
+     * @param ysize The height of the area in tiles.
+     * @param userdata Any special data to attach to the area, such as its type.
+     */
     public void addCollisionArea(float x, float y, float xsize, float ysize, Object userdata) {
+        //begin defining the collision area
         BodyDef bodyDef1 = new BodyDef();
         bodyDef1.type = BodyType.STATIC;
         bodyDef1.active = true;
@@ -55,6 +73,7 @@ public class GameEngine {
         bodyDef1.userData = userdata;
         bodyDef1.linearVelocity = new Vec2(0, 0);
         bodyDef1.fixedRotation = true;
+        //give it some shape
         PolygonShape polygonShape1 = new PolygonShape();
         polygonShape1.setAsBox(xsize / 2, ysize / 2);
         FixtureDef fixtureDef1 = new FixtureDef();
@@ -69,7 +88,11 @@ public class GameEngine {
         collisionBodies.add(body1);
     }
 
+    /**
+     * Add the bordering walls to the world.
+     */
     private void addWalls() {
+        //an edge is defined by a pair of vertices
         class VertexPair {
             public Vec2 a, b;
             public VertexPair(Vec2 a, Vec2 b) {
@@ -79,6 +102,7 @@ public class GameEngine {
         }
         int side1 = 21;
         int side2 = 21;
+        //all of the walls
         VertexPair[] walls = new VertexPair[] {
                 new VertexPair(
                         new Vec2 (0, 0),
@@ -97,6 +121,7 @@ public class GameEngine {
                         new Vec2(0, 0)
                 )
         };
+        //create all of the walls
         for (VertexPair vertexPair: walls) {
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyType.STATIC;
@@ -111,6 +136,9 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Add a number of enemies to the world.
+     */
     private void addEnemies() {
         enemyBodies.clear();
         for (int i = 0; i < numEnemiesPerLevel; i++) {
@@ -118,10 +146,17 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Get an ArrayList of Body objects that represent the enemies in the game.
+     * @return The ArrayList of Bodies.
+     */
     public ArrayList<Body> getEnemyBodies() {
         return enemyBodies;
     }
 
+    /**
+     * Add a single enemy body randomly in the world, and append it to the ArrayList of existing bodies.
+     */
     private void addEnemy() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -142,11 +177,17 @@ public class GameEngine {
         enemyBodies.add(enemyBody);
     }
 
+    /**
+     * Reset the physics world, for example when going up or down stairs. Clears and re-adds everything required.
+     */
     public void resetWorld() {
+        //create the world
         this.world = new World(new Vec2(0, 0));
         world.setAllowSleep(true);
         world.setContinuousPhysics(false);
         world.setContactListener(gameContactListener);
+
+        //begin defining the player
         BodyDef playerBodyDef = new BodyDef();
         playerBodyDef.type = BodyType.DYNAMIC;
         playerBodyDef.active = true;
@@ -162,6 +203,8 @@ public class GameEngine {
         playerFixture.density = 5.f;
         playerStudentBody = world.createBody(playerBodyDef);
         playerStudentBody.createFixture(playerFixture);
+
+        //add the walls, enemies, etc.
         addWalls();
         increaseDifficulty();
         addEnemies();
@@ -173,14 +216,29 @@ public class GameEngine {
         collisionBodies.clear();
     }
 
+    /**
+     * Increase the difficulty of the <i>next</i> world by adding more and faster enemies.
+     */
     public void increaseDifficulty() {
         numEnemiesPerLevel++;
+        ENEMY_SPEED += .1f;
     }
 
+    /**
+     * Decrease the difficulty of the <i>next</i> world by removing enemies and making them slower.
+     */
     public void decreaseDifficult() {
-        numEnemiesPerLevel--;
+        if (numEnemiesPerLevel > 1) {
+            numEnemiesPerLevel--;
+        }
+        if (ENEMY_SPEED > 0.7f) {
+            ENEMY_SPEED -= .1f;
+        }
     }
 
+    /**
+     * Start the timers that control the physics and render loops.
+     */
     public void go() {
         gameTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -201,17 +259,46 @@ public class GameEngine {
                 mapRenderer.repaint();
             }
         }, 0, 1000 / RENDER_FPS);
-
     }
 
+    /**
+     * Stop and reset the timers that control the physics and render loop.
+     */
+    private void pause() {
+        gameTimer.cancel();
+        renderTimer.cancel();
+        gameTimer = new Timer();
+        renderTimer = new Timer();
+    }
+
+    /**
+     * Handle a key being pressed.
+     * @param e The keyEvent.
+     */
     public void keyPressed(KeyEvent e) {
         keysPressed.add(e.getKeyCode());
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (paused) {
+                go();
+            } else {
+                pause();
+            }
+            paused = !paused;
+        }
     }
 
+    /**
+     * Handle a key being released.
+     * @param e The keyEvent.
+     */
     public void keyReleased(KeyEvent e) {
         keysPressed.remove(e.getKeyCode());
     }
 
+    /**
+     * Update the state (i.e. velocities) of all entities in the world.
+     * This is called once every physics loop, right before the physics engine takes time step.
+     */
     private void updateState() {
         float up = 0.f;
         float right = 0.f;
@@ -231,6 +318,7 @@ public class GameEngine {
 
         playerStudentBody.setLinearVelocity(linearVelocity);
         if (right != 0 || up != 0) {
+            //set the angle so the renderer can orient us properly
             playerStudent.setAngle(Math.atan2(-right, -up));
         }
 
@@ -241,6 +329,11 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Control the enemy's direction and heading. Currently this is implemented by simply
+     * pointing the enemy at the player regardless of any obstructions, but it becomes
+     * difficult quickly enough.
+     */
     private void enemyAI() {
         for (Body enemyBody: enemyBodies) {
             Vec2 delta_position = playerStudentBody.getPosition().sub(enemyBody.getPosition()); //we want to go this way
@@ -248,48 +341,86 @@ public class GameEngine {
             delta_position = delta_position.mul(ENEMY_SPEED);
             enemyBody.setLinearVelocity(delta_position);
 
+            //calculate our angle and set it so the renderer can orient it properly
             double theta = Math.atan2(-delta_position.x, delta_position.y);
             Enemy enemy = (Enemy) enemyBody.getUserData();
             enemy.setAngle(theta);
         }
     }
 
+    /**
+     * Synchronize the Enemy class's position vector with the Body class's position vector.
+     * This is because the Enemy class's position vector is used by the renderer whereas
+     * the Body class's position vector is used by the physics engine.
+     * @param enemyBody The Body (with Enemy in its userData field) to synchronize.
+     */
     private void syncEnemyPosition(Body enemyBody) {
         Enemy enemy = (Enemy) enemyBody.getUserData();
         Vec2 location = enemyBody.getPosition();
         enemy.setLocation(new double[] {location.x, location.y});
     }
 
+    /**
+     * Get the location, in tiles, of the player.
+     * @return The location of the player.
+     */
     public float[] getPlayerLocation() {
         Vec2 position = playerStudentBody.getPosition();
         return new float[] {position.x, position.y};
     }
 
+    /**
+     * Set the initial location of a player, in tiles. Used for changing floors.
+     * @param location The location of the player.
+     */
     public void setPlayerLocation(double[] location) {
         playerStudent.setLocation(location);
     }
 
+    /**
+     * Stop all the timers without creating new ones, for example when switching floors.
+     */
     public void stopAll() {
         renderTimer.cancel();
         gameTimer.cancel();
     }
 
+    /**
+     * Get the MapRenderer object associated with this GameEngine.
+     * @return The MapRenderer associated.
+     */
     public MapRenderer getMapRenderer() {
         return mapRenderer;
     }
 
+    /**
+     * Unused.
+     * @return
+     */
     public Body getPlayerStudentBody() {
         return playerStudentBody;
     }
 
+    /**
+     * Get the PlayerStudent entity object.
+     * @return The PlayerStudent.
+     */
     public PlayerStudent getPlayerStudent() {
         return playerStudent;
     }
 
+    /**
+     * Set the DebugPanel to send messages to.
+     * @param debugPanel The DebugPanel.
+     */
     public void setDebugPanel(DebugPanel debugPanel) {
         this.debugPanel = debugPanel;
     }
 
+    /**
+     * Get the ArrayList of collision areas (rooms, doors, etc). For debugging.
+     * @return The ArrayList of Collision Bodies.
+     */
     public ArrayList<Body> getCollisionBodies() {
         return collisionBodies;
     }

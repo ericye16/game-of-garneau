@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class GameEngine {
     final static float SPEED = 4.f;
-    static float ENEMY_SPEED = 0.7f * SPEED;
+    static float ENEMY_SPEED = 1.f * SPEED;
 
     private MapRenderer mapRenderer;
     private World world;
@@ -33,6 +33,7 @@ public class GameEngine {
     private ArrayList<Body> enemyBodies = new ArrayList<Body>();
     private int numEnemiesPerLevel = 0;
     private boolean paused = false;
+    private double points = 0;
 
     /**
      * Performance settings. If you have issues with running the game, try lowering some of these.
@@ -206,7 +207,10 @@ public class GameEngine {
 
         //add the walls, enemies, etc.
         addWalls();
-        increaseDifficulty();
+        updateDifficulty();
+        if (debugPanel != null) {
+            increasePoints(200 + 200 * mapRenderer.getCurrentFloor());
+        }
         addEnemies();
         logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
         gameTimer = new Timer();
@@ -227,12 +231,34 @@ public class GameEngine {
     /**
      * Decrease the difficulty of the <i>next</i> world by removing enemies and making them slower.
      */
-    public void decreaseDifficult() {
+    public void decreaseDifficulty() {
         if (numEnemiesPerLevel > 1) {
             numEnemiesPerLevel--;
         }
         if (ENEMY_SPEED > 0.7f) {
             ENEMY_SPEED -= .1f;
+        }
+    }
+
+    /**
+     * Update the difficulty intelligently according to the player's scores.
+     */
+    public void updateDifficulty() {
+        if (points < 200) {
+            numEnemiesPerLevel = 1;
+            ENEMY_SPEED = 1.f * SPEED;
+        } else if (points < 400) {
+            numEnemiesPerLevel = 2;
+            ENEMY_SPEED = 1.f * SPEED;
+        } else if (points < 1000) {
+            numEnemiesPerLevel = 3;
+            ENEMY_SPEED = 1.2f * SPEED;
+        } else if (points < 1500) {
+            numEnemiesPerLevel = 4;
+            ENEMY_SPEED = 1.2f * SPEED;
+        } else {
+            ENEMY_SPEED = 1.2f * SPEED;
+            numEnemiesPerLevel = (int) points / 300;
         }
     }
 
@@ -247,7 +273,7 @@ public class GameEngine {
                 world.step(1.f / PHYSICS_FPS, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
                 if (debugPanel != null) {
                     float[] playerPositionFloat = getPlayerLocation();
-                    debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1]);
+                    debugPanel.updatePlayerPosition(playerPositionFloat[0], playerPositionFloat[1], mapRenderer.getCurrentFloor());
                     //logger.info(playerPosition.x + "," + playerPosition.y);
                     debugPanel.repaint();
                 }
@@ -324,9 +350,42 @@ public class GameEngine {
 
         enemyAI();
 
+        //you get points simply by being here
+        increasePoints(10. / PHYSICS_FPS);
+
         for (Body enemyBody: enemyBodies) {
             syncEnemyPosition(enemyBody);
         }
+    }
+
+    /**
+     * Decrease the player's number of points by a certain amount. If this brings the number of points below zero,
+     * the difficulty is reduced.
+     * @param amount The amount to decrease it by.
+     */
+    public void decreasePoints(double amount) {
+        points -= amount;
+        if (points < 0) {
+            decreaseDifficulty();
+        }
+        debugPanel.updatePoints(points);
+    }
+
+    /**
+     * Increase the player's number of points.
+     * @param amount The amount to increase it by.
+     */
+    public void increasePoints(double amount) {
+        points += amount;
+        debugPanel.updatePoints(points);
+    }
+
+    /**
+     * Get the number of points the player has.
+     * @return The number of points.
+     */
+    public double getPoints() {
+        return points;
     }
 
     /**

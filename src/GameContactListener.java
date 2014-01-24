@@ -28,6 +28,7 @@ public class GameContactListener implements org.jbox2d.callbacks.ContactListener
              * Deal with the different cases of the player bumping into things.
              */
                 if (other.getBody().getUserData() == Entities.DOOR) { //hit a door
+                    gameEngine.increasePoints(5 + 100 * mapRenderer.getCurrentFloor());
                     logger.fine("Hit a door!");
                 } else if (other.getBody().getUserData() == Entities.STAIRS_DOWN) { //went down the stairs
                     mapRenderer.goDownTheStairs();
@@ -36,7 +37,7 @@ public class GameContactListener implements org.jbox2d.callbacks.ContactListener
                     mapRenderer.goUpTheStairs();
                     logger.fine("Going down the stairs.");
                 } else if (other.getBody().getUserData() instanceof Enemy) {
-
+                    gameEngine.decreasePoints(100 + 200 * mapRenderer.getCurrentFloor());
                     logger.info("Hit by an enemy!");
                 }
             logger.fine("Got contact");

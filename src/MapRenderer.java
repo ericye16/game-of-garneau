@@ -73,7 +73,7 @@ public class MapRenderer extends JPanel implements KeyListener {
         BufferedImage enemySprite = Enemy.getSpriteStatic();
         for (Body enemyBody: gameEngine.getEnemyBodies()) {
             Enemy enemy = (Enemy) enemyBody.getUserData();
-            double[] location =enemy.location;
+            double[] location = enemy.location;
             int x = (int) tiles2pixels((float) location[0]) - 8;
             int y = (int) tiles2pixels((float) location[1]) - 8;
 
@@ -268,6 +268,14 @@ public class MapRenderer extends JPanel implements KeyListener {
         gameEngine.setPlayerLocation(newLocation);
         gameEngine.resetWorld();
         initializeWithGameEngine();
+    }
+
+    /**
+     * Get the current floor. Zero-indexed.
+     * @return The current floor.
+     */
+    public int getCurrentFloor() {
+        return currentFloor;
     }
 
     @Override

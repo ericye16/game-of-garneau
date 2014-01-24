@@ -6,6 +6,7 @@ public class DebugPanel extends JPanel {
     private final HashSet<Integer> integers = new HashSet<Integer>();
     private JLabel keysPressed = new JLabel();
     private JLabel playerLocation = new JLabel();
+    private JLabel points = new JLabel();
     private static Logger logger = Logger.getLogger("DebugPanel");
 
     /**
@@ -22,6 +23,11 @@ public class DebugPanel extends JPanel {
             throw new InternalError(); //should never happen
         }
         drawKeysPressed();
+    }
+
+    public void updatePoints(double points) {
+        this.points.setText("Points: " + (int) points);
+        repaint();
     }
 
     /**
@@ -43,8 +49,8 @@ public class DebugPanel extends JPanel {
      * @param x The x-location.
      * @param y The y-location.
      */
-    public void updatePlayerPosition(float x, float y) {
-        String text = "Pos: (" + x + ", " + y + ")";
+    public void updatePlayerPosition(float x, float y, int floor) {
+        String text = "Floor: " + (floor + 1); //people count starting with ones
         playerLocation.setText(text);
     }
 
@@ -52,9 +58,11 @@ public class DebugPanel extends JPanel {
      * Construct the DebugPanel with default values.
      */
     public DebugPanel() {
-        add(keysPressed);
+        //add(keysPressed);
+        add(points);
         add(playerLocation);
-        updatePlayerPosition(0, 0);
+        updatePoints(0);
+        updatePlayerPosition(0, 0, 0);
         drawKeysPressed();
     }
 

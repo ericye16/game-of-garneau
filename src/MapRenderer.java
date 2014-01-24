@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -62,9 +64,12 @@ public class MapRenderer extends JPanel implements KeyListener {
         }
         float[] location = gameEngine.getPlayerLocation();
         BufferedImage sprite = gameEngine.getPlayerStudent().getSprite();
-        int x = (int) tiles2pixels(location[0]);
-        int y = (int) tiles2pixels(location[1]);
-        g.drawImage(sprite, x, y, 16, 16, null);
+        int x = (int) tiles2pixels(location[0]) - 8;
+        int y = (int) tiles2pixels(location[1]) - 8;
+
+        AffineTransform transform = AffineTransform.getRotateInstance(gameEngine.getPlayerStudent().getAngle(), 8, 8);
+        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        g.drawImage(op.filter(sprite, null), x, y, null);
     }
 
     public MapRenderer() {

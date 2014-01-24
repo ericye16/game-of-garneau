@@ -51,6 +51,7 @@ public class GameEngine {
         bodyDef1.position = new Vec2(x + xsize / 2, y + ysize / 2);
         bodyDef1.userData = userdata;
         bodyDef1.linearVelocity = new Vec2(0, 0);
+        bodyDef1.fixedRotation = true;
         PolygonShape polygonShape1 = new PolygonShape();
         polygonShape1.setAsBox(xsize / 2, ysize / 2);
         FixtureDef fixtureDef1 = new FixtureDef();
@@ -178,7 +179,9 @@ public class GameEngine {
         Vec2 linearVelocity = new Vec2(right, -up);
 
         playerStudentBody.setLinearVelocity(linearVelocity);
-        //logger.info("Moving with linVel: " + linearVelocity);
+        if (right != 0 || up != 0) {
+            playerStudent.setAngle(Math.atan2(-right, -up));
+        }
     }
 
     public float[] getPlayerLocation() {

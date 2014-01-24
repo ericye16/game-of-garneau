@@ -1,23 +1,32 @@
+import sun.util.logging.resources.logging;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Yaning
- * Date: 16/01/14
- * Time: 8:43 AM
- * To change this template use File | Settings | File Templates.
- */
 public class PlayerStudent extends Entity {
-
+    private Logger logger = Logger.getLogger("PlayerStudent");
     private int sleep;
     private int grades;
     private int social;
+    private Rectangle rectangle = new Rectangle(16, 16);
+    private BufferedImage sprite;
 
     /**
      * Initializes a playable student
      * Default location is near the office entrance, on the first floor
      */
     public PlayerStudent () {
+        try {
+            sprite = ImageIO.read(new File("res/sprites/playerstudent.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.severe(e.getLocalizedMessage());
+            throw new InternalError("Could not load sprite");
+        }
         sleep = 100;
         grades = 70;
         social = 0;
@@ -74,12 +83,12 @@ public class PlayerStudent extends Entity {
     }
 
     @Override
-    protected boolean canMoveTo(double[] newLoc) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    public BufferedImage getSprite() {
+        return sprite;
     }
 
     @Override
-    public BufferedImage getSprite() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }

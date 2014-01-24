@@ -20,6 +20,7 @@ public class GameFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        Version.printAbout();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

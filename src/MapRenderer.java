@@ -1,4 +1,3 @@
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import tiled.core.*;
@@ -7,7 +6,9 @@ import tiled.view.OrthogonalRenderer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -59,9 +60,11 @@ public class MapRenderer extends JPanel implements KeyListener {
                 g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
             }
         }
-        g.setColor(Color.BLACK);
         float[] location = gameEngine.getPlayerLocation();
-        g.fillRect((int) tiles2pixels(location[0]) - 8,(int)  tiles2pixels(location[1]) - 8, 16, 16);
+        BufferedImage sprite = gameEngine.getPlayerStudent().getSprite();
+        int x = (int) tiles2pixels(location[0]);
+        int y = (int) tiles2pixels(location[1]);
+        g.drawImage(sprite, x, y, 16, 16, null);
     }
 
     public MapRenderer() {
@@ -81,7 +84,7 @@ public class MapRenderer extends JPanel implements KeyListener {
         requestFocusInWindow();
     }
 
-    private static float pixel2tiles(float px) {
+    private static float pixels2tiles(float px) {
         return px / 32;
     }
 
@@ -114,8 +117,8 @@ public class MapRenderer extends JPanel implements KeyListener {
         while(objects.hasNext()) {
             MapObject obj = objects.next();
             if (obj != null) {
-                gameEngine.addCollisionArea(pixel2tiles(obj.getX()), pixel2tiles(obj.getY()), pixel2tiles(obj.getWidth()),
-                    pixel2tiles(obj.getHeight()), null);
+                gameEngine.addCollisionArea(pixels2tiles(obj.getX()), pixels2tiles(obj.getY()), pixels2tiles(obj.getWidth()),
+                    pixels2tiles(obj.getHeight()), null);
             }
         }
 
@@ -128,8 +131,8 @@ public class MapRenderer extends JPanel implements KeyListener {
                     logger.warning("Door problem! " + door);
                 }
                 if (door != null) {
-                    gameEngine.addCollisionArea(pixel2tiles(door.getX()), pixel2tiles(door.getY()), pixel2tiles(door.getWidth()),
-                            pixel2tiles(door.getHeight()), Entities.DOOR);
+                    gameEngine.addCollisionArea(pixels2tiles(door.getX()), pixels2tiles(door.getY()), pixels2tiles(door.getWidth()),
+                            pixels2tiles(door.getHeight()), Entities.DOOR);
                 }
             }
         } else {
@@ -152,8 +155,8 @@ public class MapRenderer extends JPanel implements KeyListener {
                     else {
                         logger.warning("special property did not match anything known: " + specialProperty);
                     }
-                    gameEngine.addCollisionArea(pixel2tiles(special.getX()), pixel2tiles(special.getY()), pixel2tiles(special.getWidth()),
-                            pixel2tiles(special.getHeight()), specialEntity);
+                    gameEngine.addCollisionArea(pixels2tiles(special.getX()), pixels2tiles(special.getY()), pixels2tiles(special.getWidth()),
+                            pixels2tiles(special.getHeight()), specialEntity);
                 }
             }
         } else {
@@ -219,8 +222,6 @@ public class MapRenderer extends JPanel implements KeyListener {
             debugPanel.updateKeysPressed(DebugPanel.keyLabelAction.ADD, e.getKeyCode());
             gameEngine.keyPressed(e);
         }
-
-
     }
 
     @Override

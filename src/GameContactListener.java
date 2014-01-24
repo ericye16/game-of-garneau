@@ -2,7 +2,6 @@ import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
-import sun.util.logging.resources.logging;
 
 import java.util.logging.Logger;
 

@@ -1,14 +1,14 @@
+import org.jbox2d.collision.shapes.EdgeShape;
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.*;
+
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
-
-import org.jbox2d.collision.shapes.EdgeShape;
-import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.*;
 
 public class GameEngine {
     final static float SPEED = 4.f;
@@ -201,6 +201,10 @@ public class GameEngine {
 
     public Body getPlayerStudentBody() {
         return playerStudentBody;
+    }
+
+    public PlayerStudent getPlayerStudent() {
+        return playerStudent;
     }
 
     public void setDebugPanel(DebugPanel debugPanel) {

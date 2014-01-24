@@ -44,9 +44,9 @@
   </object>
  </objectgroup>
  <objectgroup name="Doors" width="21" height="21">
-  <object x="541" y="260" width="38" height="9"/>
-  <object x="290" y="261" width="29" height="9"/>
-  <object x="541" y="368" width="33" height="8"/>
+  <object x="540" y="267" width="38" height="9"/>
+  <object x="289" y="266" width="29" height="9"/>
+  <object x="542" y="364" width="33" height="8"/>
   <object x="361" y="446" width="7" height="33"/>
   <object x="362" y="573" width="7" height="34"/>
   <object x="170" y="543" width="6" height="34"/>

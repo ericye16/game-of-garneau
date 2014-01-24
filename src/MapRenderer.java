@@ -50,7 +50,7 @@ public class MapRenderer extends JPanel implements KeyListener {
             }
         }
         //debugging
-        if (debugPanel != null) {
+        if (false) {
             //draw a blue square in the middle of these collision areas
             g.setColor(Color.BLUE);
             for (Body collisionBody: gameEngine.getCollisionBodies()) {

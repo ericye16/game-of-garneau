@@ -368,7 +368,9 @@ public class GameEngine {
         if (points < 0) {
             decreaseDifficulty();
         }
-        debugPanel.updatePoints(points);
+        if (debugPanel != null) {
+            debugPanel.updatePoints(points);
+        }
     }
 
     /**
@@ -377,7 +379,9 @@ public class GameEngine {
      */
     public void increasePoints(double amount) {
         points += amount;
-        debugPanel.updatePoints(points);
+        if (debugPanel != null) {
+            debugPanel.updatePoints(points);
+        }
     }
 
     /**

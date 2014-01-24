@@ -14,7 +14,6 @@ public class PlayerStudent extends Entity {
     private int social;
     private Rectangle rectangle = new Rectangle(16, 16);
     private BufferedImage sprite;
-    private double angle;
 
     /**
      * Initializes a playable student
@@ -83,13 +82,6 @@ public class PlayerStudent extends Entity {
         return social;
     }
 
-    public void setAngle(double angle) {
-        this.angle = angle;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
 
     @Override
     public BufferedImage getSprite() {

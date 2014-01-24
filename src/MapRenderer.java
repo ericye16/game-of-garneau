@@ -62,6 +62,18 @@ public class MapRenderer extends JPanel implements KeyListener {
                 g.drawRect((int) tiles2pixels(position.x),(int) tiles2pixels(position.y), 4, 4);
             }
         }
+        BufferedImage enemySprite = Enemy.getSpriteStatic();
+        for (Body enemyBody: gameEngine.getEnemyBodies()) {
+            Enemy enemy = (Enemy) enemyBody.getUserData();
+            double[] location =enemy.location;
+            int x = (int) tiles2pixels((float) location[0]) - 8;
+            int y = (int) tiles2pixels((float) location[1]) - 8;
+
+            AffineTransform transform = AffineTransform.getRotateInstance(enemy.getAngle(), 8, 8);
+            AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+            g.drawImage(op.filter(enemySprite, null), x, y, null);
+        }
+
         float[] location = gameEngine.getPlayerLocation();
         BufferedImage sprite = gameEngine.getPlayerStudent().getSprite();
         int x = (int) tiles2pixels(location[0]) - 8;
@@ -167,6 +179,7 @@ public class MapRenderer extends JPanel implements KeyListener {
         } else {
             logger.severe("null third (special) layer on floor: " + currentFloor);
         }
+        gameEngine.go();
     }
 
     public void goUpTheStairs() {

@@ -25,6 +25,8 @@ public class GameEngine {
     private DebugPanel debugPanel;
     private ArrayList<Body> collisionBodies = new ArrayList<Body>();
     private GameContactListener gameContactListener;
+    private ArrayList<Body> enemyBodies = new ArrayList<Body>();
+    private int numEnemiesPerLevel = 1;
 
     /**
      * Performance settings. If you have issues with running the game, try lowering some of these.
@@ -60,6 +62,8 @@ public class GameEngine {
         fixtureDef1.friction = 0;
         Body body1 = world.createBody(bodyDef1);
         logger.fine("Creating collision object: " + x + ", " + y + ", " + xsize + "," + ysize);
+        while (body1.m_world.isLocked())
+            ;//wait for it to unlock before we add the fixture, otherwise we get a null pointer exception
         body1.createFixture(fixtureDef1);
         collisionBodies.add(body1);
     }
@@ -106,6 +110,37 @@ public class GameEngine {
         }
     }
 
+    private void addEnemies() {
+        enemyBodies.clear();
+        for (int i = 0; i < numEnemiesPerLevel; i++) {
+            addEnemy();
+        }
+    }
+
+    public ArrayList<Body> getEnemyBodies() {
+        return enemyBodies;
+    }
+
+    private void addEnemy() {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.active = true;
+        bodyDef.allowSleep = true;
+        bodyDef.position = new Vec2((float) Math.random() * 20, (float) Math.random() * 20);
+        bodyDef.userData = new Enemy();
+        ((Enemy) bodyDef.userData).setLocation(new double[] {bodyDef.position.x, bodyDef.position.y});
+        bodyDef.linearVelocity = new Vec2();
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(.25f, .25f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = polygonShape;
+        Body enemyBody = world.createBody(bodyDef);
+        while (world.isLocked())
+            ;
+        enemyBody.createFixture(fixtureDef);
+        enemyBodies.add(enemyBody);
+    }
+
     public void resetWorld() {
         this.world = new World(new Vec2(0, 0));
         world.setAllowSleep(true);
@@ -127,8 +162,24 @@ public class GameEngine {
         playerStudentBody = world.createBody(playerBodyDef);
         playerStudentBody.createFixture(playerFixture);
         addWalls();
+        addEnemies();
         logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
         gameTimer = new Timer();
+
+        logger.info("Rendering at " + 1000 / RENDER_FPS);
+        renderTimer = new Timer();
+        collisionBodies.clear();
+    }
+
+    public void increaseDifficulty() {
+        numEnemiesPerLevel++;
+    }
+
+    public void decreaseDifficult() {
+        numEnemiesPerLevel--;
+    }
+
+    public void go() {
         gameTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -142,15 +193,13 @@ public class GameEngine {
                 }
             }
         }, 0, 1000 / PHYSICS_FPS);
-        logger.info("Rendering at " + 1000 / RENDER_FPS);
-        renderTimer = new Timer();
         renderTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 mapRenderer.repaint();
             }
         }, 0, 1000 / RENDER_FPS);
-        collisionBodies.clear();
+
     }
 
     public void keyPressed(KeyEvent e) {
@@ -182,6 +231,16 @@ public class GameEngine {
         if (right != 0 || up != 0) {
             playerStudent.setAngle(Math.atan2(-right, -up));
         }
+
+        for (Body enemyBody: enemyBodies) {
+            syncEnemyPosition(enemyBody);
+        }
+    }
+
+    private void syncEnemyPosition(Body enemyBody) {
+        Enemy enemy = (Enemy) enemyBody.getUserData();
+        Vec2 location = enemyBody.getPosition();
+        enemy.setLocation(new double[] {location.x, location.y});
     }
 
     public float[] getPlayerLocation() {

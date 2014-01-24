@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class GameEngine {
     final static float SPEED = 4.f;
+    final static float ENEMY_SPEED = 1.f * SPEED;
 
     private ArrayList<Entity> entities;
     private MapRenderer mapRenderer;
@@ -162,6 +163,7 @@ public class GameEngine {
         playerStudentBody = world.createBody(playerBodyDef);
         playerStudentBody.createFixture(playerFixture);
         addWalls();
+        increaseDifficulty();
         addEnemies();
         logger.info("Simulating physics at " + 1000 / PHYSICS_FPS);
         gameTimer = new Timer();
@@ -232,8 +234,23 @@ public class GameEngine {
             playerStudent.setAngle(Math.atan2(-right, -up));
         }
 
+        enemyAI();
+
         for (Body enemyBody: enemyBodies) {
             syncEnemyPosition(enemyBody);
+        }
+    }
+
+    private void enemyAI() {
+        for (Body enemyBody: enemyBodies) {
+            Vec2 delta_position = playerStudentBody.getPosition().sub(enemyBody.getPosition()); //we want to go this way
+            delta_position.normalize();
+            delta_position = delta_position.mul(ENEMY_SPEED);
+            enemyBody.setLinearVelocity(delta_position);
+
+            double theta = Math.atan2(-delta_position.x, delta_position.y);
+            Enemy enemy = (Enemy) enemyBody.getUserData();
+            enemy.setAngle(theta);
         }
     }
 
